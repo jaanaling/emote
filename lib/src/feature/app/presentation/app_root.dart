@@ -11,7 +11,7 @@ class AppRoot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GameBloc()..add( LoadGameData()),
+      create: (context) => GameBloc()..add(LoadGameData()),
       child: CupertinoApp.router(
         theme: const CupertinoThemeData(
           brightness: Brightness.light,
@@ -28,6 +28,7 @@ class AppRoot extends StatelessWidget {
           return Theme(
             data: ThemeData(
               primaryColor: Color(0xFFFF48A0),
+              primarySwatch: Colors.pink,
               textTheme: TextTheme(
                 bodyLarge: TextStyle(
                   fontFamily: 'Baloo Bhaijaan',

@@ -3,6 +3,7 @@ import 'package:emote_this/src/core/utils/icon_provider.dart';
 import 'package:emote_this/src/core/utils/size_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 class AppBarWidget extends StatelessWidget {
   final int tipsCount;
@@ -18,7 +19,7 @@ class AppBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: getWidth(1, context),
-      height: 51.5+MediaQuery.of(context).padding.top,
+      height: 46.5 + MediaQuery.of(context).padding.top,
       child: DecoratedBox(
         decoration: const BoxDecoration(
             color: Color(0xFFFF48A0),
@@ -31,16 +32,21 @@ class AppBarWidget extends StatelessWidget {
             top: MediaQuery.of(context).padding.top,
           ),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: (){},
-                  borderRadius: BorderRadius.circular(32),
-                  child: Ink.image(
-                    width: 26,
-                    fit: BoxFit.fitWidth,
-                    image: AssetImage(IconProvider.achievements.buildImageUrl()),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {},
+                    borderRadius: BorderRadius.circular(32),
+                    child: Ink.image(
+                      width: 26,
+                      height: 25,
+                      image:
+                          AssetImage(IconProvider.achievements.buildImageUrl()),
+                    ),
                   ),
                 ),
               ),
@@ -53,27 +59,29 @@ class AppBarWidget extends StatelessWidget {
               Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: (){},
-                  borderRadius: BorderRadius.circular(32),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Ink.image(
-                        width: 19,
-                        height: 23,
-                        fit: BoxFit.fitWidth,
-                        image: AssetImage(IconProvider.tip.buildImageUrl()),
-                      ),
-                      _countContainer(tipsCount, true)
-                    ],
+                  onTap: () {},
+                  borderRadius: BorderRadius.circular(8),
+                  child: SizedBox(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Ink.image(
+                          width: 19,
+                          height: 23,
+                          fit: BoxFit.fitWidth,
+                          image: AssetImage(IconProvider.tip.buildImageUrl()),
+                        ),
+                        _countContainer(tipsCount, true)
+                      ],
+                    ),
                   ),
                 ),
               ),
+              Gap(5),
               Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: (){},
-                  borderRadius: BorderRadius.circular(32),
+                  borderRadius: BorderRadius.circular(8),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -109,21 +117,24 @@ Widget _countContainer(int count, bool hasAddButton) {
               borderRadius: BorderRadius.circular(18)),
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 11),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Text(
                 count.toString(),
-                style: const TextStyle(fontSize: 10,   fontFamily: 'Baloo Bhaijaan',
-                  color: Colors.black,),
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontFamily: 'Baloo Bhaijaan',
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
         ),
         if (hasAddButton)
           Positioned(
-            left: 2.7,
+            right: 3,
             child: Ink(
-                width: 6,
-                height: 6,
+                width: 10,
+                height: 10,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(32),
                   color: const Color(0xFFFBEE18),
@@ -131,9 +142,11 @@ Widget _countContainer(int count, bool hasAddButton) {
                 child: const Center(
                   child: Text(
                     '+',
-                    style: TextStyle(fontSize: 4,
+                    style: TextStyle(
+                      fontSize: 8,
                       fontFamily: 'Baloo Bhaijaan',
-                      color: Colors.black,),
+                      color: Colors.black,
+                    ),
                   ),
                 )),
           )

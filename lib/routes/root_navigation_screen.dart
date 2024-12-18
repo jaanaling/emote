@@ -26,8 +26,18 @@ class _RootNavigationScreenState extends State<RootNavigationScreen> {
         children: [
           Positioned.fill(
             child: DecoratedBox(
-              decoration: BoxDecoration(color: Colors.white.withOpacity(0.4)),
-              child: AppIcon(asset: IconProvider.splash.buildImageUrl()),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    IconProvider.splash.buildImageUrl(),
+                  ),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    Colors.white.withOpacity(0.4),
+                    BlendMode.lighten,
+                  ),
+                ),
+              ),
             ),
           ),
           widget.navigationShell,
