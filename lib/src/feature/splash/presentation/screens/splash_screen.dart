@@ -1,12 +1,7 @@
-import 'package:advertising_id/advertising_id.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:go_router/go_router.dart';
-
 import '../../../../../routes/route_value.dart';
-import '../../../../core/utils/app_icon.dart';
-import '../../../../core/utils/icon_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -25,8 +20,6 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> startLoading(BuildContext context) async {
     await Future.delayed(const Duration(milliseconds: 1000));
-
-    // final adId = await AdvertisingId.id(true);
     context.go(RouteValue.home.path);
   }
 
@@ -41,9 +34,7 @@ class _SplashScreenState extends State<SplashScreen>
     final height = MediaQuery.of(context).size.height;
     return Stack(
       alignment: Alignment.center,
-      children: [
-       
-      ],
+      children: [],
     );
   }
 }
