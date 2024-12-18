@@ -1,0 +1,162 @@
+[
+  {
+    "id": 1,
+    "title": "First Steps",
+    "description": "Solve your first riddle",
+    "difficalty": 1,
+    "coin_reward": 10,
+    "unlocked": false
+  },
+  {
+    "id": 2,
+    "title": "On a Roll",
+    "description": "Solve 10 riddles",
+    "difficalty": 2,
+    "coin_reward": 20,
+    "unlocked": false
+  },
+  {
+    "id": 3,
+    "title": "Riddle Master",
+    "description": "Solve 50 riddles",
+    "difficalty": 3,
+    "coin_reward": 30,
+    "unlocked": false
+  },
+  {
+    "id": 4,
+    "title": "Hint Saver",
+    "description": "Use fewer than 5 hints in 20 riddles",
+    "difficalty": 1,
+    "coin_reward": 10,
+    "unlocked": false
+  },
+  {
+    "id": 5,
+    "title": "Speed Solver",
+    "description": "Solve a riddle in under 10 seconds",
+    "difficalty": 2,
+    "coin_reward": 20,
+    "unlocked": false
+  },
+  {
+    "id": 6,
+    "title": "Category Explorer",
+    "description": "Solve at least one riddle from each category",
+    "difficalty": 3,
+    "coin_reward": 30,
+    "unlocked": false
+  },
+  {
+    "id": 7,
+    "title": "Food Lover",
+    "description": "Solve 10 Food & Drinks riddles",
+    "difficalty": 1,
+    "coin_reward": 10,
+    "unlocked": false
+  },
+  {
+    "id": 8,
+    "title": "Movie Buff",
+    "description": "Solve 10 Movies & TV riddles",
+    "difficalty": 1,
+    "coin_reward": 10,
+    "unlocked": false
+  },
+  {
+    "id": 9,
+    "title": "Book Worm",
+    "description": "Solve 10 Fairy tales & literature riddles",
+    "difficalty": 1,
+    "coin_reward": 10,
+    "unlocked": false
+  },
+  {
+    "id": 10,
+    "title": "Melody Maker",
+    "description": "Solve 10 Songs & Musicians riddles",
+    "difficalty": 2,
+    "coin_reward": 20,
+    "unlocked": false
+  },
+  {
+    "id": 11,
+    "title": "History Fan",
+    "description": "Solve 10 Celebrities & historical figures riddles",
+    "difficalty": 3,
+    "coin_reward": 30,
+    "unlocked": false
+  },
+  {
+    "id": 12,
+    "title": "Globe Trotter",
+    "description": "Solve 10 Cities & Countries riddles",
+    "difficalty": 1,
+    "coin_reward": 10,
+    "unlocked": false
+  },
+  {
+    "id": 13,
+    "title": "Wildlife Enthusiast",
+    "description": "Solve 10 Animals & Nature riddles",
+    "difficalty": 1,
+    "coin_reward": 10,
+    "unlocked": false
+  },
+  {
+    "id": 14,
+    "title": "Wealthy",
+    "description": "Accumulate 100 coins",
+    "difficalty": 2,
+    "coin_reward": 20,
+    "unlocked": false
+  },
+  {
+    "id": 15,
+    "title": "Brainiac",
+    "description": "Accumulate 1000 points",
+    "difficalty": 1,
+    "coin_reward": 10,
+    "unlocked": false
+  },
+  {
+    "id": 16,
+    "title": "Persistent",
+    "description": "Fail a riddle 3 times and then succeed",
+    "difficalty": 1,
+    "coin_reward": 10,
+    "unlocked": false
+  },
+  {
+    "id": 17,
+    "title": "Daily Player",
+    "description": "Solve the 'Everyday riddle' 7 days in a row",
+    "difficalty": 3,
+    "coin_reward": 30,
+    "unlocked": false
+  },
+  {
+    "id": 18,
+    "title": "Creator",
+    "description": "Create your own riddle",
+    "difficalty": 1,
+    "coin_reward": 10,
+    "unlocked": false
+  },
+  {
+    "id": 19,
+    "title": "Shared Fun",
+    "description": "Share a riddle with a friend",
+    "difficalty": 1,
+    "coin_reward": 10,
+    "unlocked": false
+  },
+  {
+    "id": 20,
+    "title": "No Help Needed",
+    "description": "Complete a level without using hints",
+    "difficalty": 1,
+    "coin_reward": 10,
+    "unlocked": false
+  }
+]

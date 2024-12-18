@@ -1,0 +1,650 @@
+[
+  {
+    "id": 1,
+    "level": 1,
+    "complexity": 1,
+    "category": "Movies & TV",
+    "emojis": "🎥👑",
+    "answer": "The Crown",
+    "points": 1,
+    "coins": 1
+  },
+  {
+    "id": 2,
+    "level": 1,
+    "complexity": 1,
+    "category": "Fairy tales & literature",
+    "emojis": "👦📖✨",
+    "answer": "Harry Potter",
+    "points": 1,
+    "coins": 1
+  },
+  {
+    "id": 3,
+    "level": 1,
+    "complexity": 1,
+    "category": "Songs & Musicians",
+    "emojis": "👩🎤💎",
+    "answer": "Diamonds (Rihanna)",
+    "points": 1,
+    "coins": 1
+  },
+  {
+    "id": 4,
+    "level": 1,
+    "complexity": 1,
+    "category": "Food & Drinks",
+    "emojis": "🍔🔥",
+    "answer": "Hot Burger",
+    "points": 1,
+    "coins": 1
+  },
+  {
+    "id": 5,
+    "level": 1,
+    "complexity": 1,
+    "category": "Animals & Nature",
+    "emojis": "🐱🐟",
+    "answer": "Catfish",
+    "points": 1,
+    "coins": 1
+  },
+  {
+    "id": 6,
+    "level": 1,
+    "complexity": 1,
+    "category": "Celebrities & historical figures",
+    "emojis": "👩💋💃",
+    "answer": "Marilyn Monroe",
+    "points": 1,
+    "coins": 1
+  },
+
+  {
+    "id": 7,
+    "level": 1,
+    "complexity": 2,
+    "category": "Movies & TV",
+    "emojis": "👨🔫🚘",
+    "answer": "James Bond",
+    "points": 2,
+    "coins": 2
+  },
+  {
+    "id": 8,
+    "level": 1,
+    "complexity": 2,
+    "category": "Fairy tales & literature",
+    "emojis": "🧚🌳",
+    "answer": "Tinkerbell",
+    "points": 2,
+    "coins": 2
+  },
+  {
+    "id": 9,
+    "level": 1,
+    "complexity": 2,
+    "category": "Songs & Musicians",
+    "emojis": "👨🎸👑",
+    "answer": "Elvis Presley",
+    "points": 2,
+    "coins": 2
+  },
+  {
+    "id": 10,
+    "level": 1,
+    "complexity": 2,
+    "category": "Food & Drinks",
+    "emojis": "🍏🥧",
+    "answer": "Apple Pie",
+    "points": 2,
+    "coins": 2
+  },
+  {
+    "id": 11,
+    "level": 1,
+    "complexity": 2,
+    "category": "Animals & Nature",
+    "emojis": "🐼🎍",
+    "answer": "Panda",
+    "points": 2,
+    "coins": 2
+  },
+
+  {
+    "id": 12,
+    "level": 1,
+    "complexity": 3,
+    "category": "Movies & TV",
+    "emojis": "🌍🐵🏰",
+    "answer": "Planet of the Apes",
+    "points": 3,
+    "coins": 3
+  },
+  {
+    "id": 13,
+    "level": 1,
+    "complexity": 3,
+    "category": "Fairy tales & literature",
+    "emojis": "👧🔑🚪",
+    "answer": "Alice in Wonderland",
+    "points": 3,
+    "coins": 3
+  },
+  {
+    "id": 14,
+    "level": 1,
+    "complexity": 3,
+    "category": "Songs & Musicians",
+    "emojis": "🎵🚀👨‍🚀",
+    "answer": "Rocket Man (Elton John)",
+    "points": 3,
+    "coins": 3
+  },
+  {
+    "id": 15,
+    "level": 1,
+    "complexity": 3,
+    "category": "Food & Drinks",
+    "emojis": "🍣🐟",
+    "answer": "Sushi",
+    "points": 3,
+    "coins": 3
+  },
+
+  {
+    "id": 16,
+    "level": 1,
+    "complexity": 4,
+    "category": "Cities & Countries",
+    "emojis": "🗽🇺🇸",
+    "answer": "New York",
+    "points": 4,
+    "coins": 4
+  },
+  {
+    "id": 17,
+    "level": 1,
+    "complexity": 4,
+    "category": "Celebrities & historical figures",
+    "emojis": "👨⚖️🇮🇳",
+    "answer": "Gandhi",
+    "points": 4,
+    "coins": 4
+  },
+  {
+    "id": 18,
+    "level": 1,
+    "complexity": 4,
+    "category": "Animals & Nature",
+    "emojis": "🐘🌍",
+    "answer": "African Elephant",
+    "points": 4,
+    "coins": 4
+  },
+
+  {
+    "id": 19,
+    "level": 1,
+    "complexity": 5,
+    "category": "Songs & Musicians",
+    "emojis": "👩🎶🔁",
+    "answer": "Madonna",
+    "points": 5,
+    "coins": 5
+  },
+  {
+    "id": 20,
+    "level": 1,
+    "complexity": 5,
+    "category": "Cities & Countries",
+    "emojis": "🏰🇫🇷",
+    "answer": "Paris",
+    "points": 5,
+    "coins": 5
+  },
+
+  {
+    "id": 21,
+    "level": 1,
+    "complexity": 6,
+    "category": "Movies & TV",
+    "emojis": "🦸‍♂️🕸️",
+    "answer": "Spider-Man",
+    "points": 6,
+    "coins": 6
+  },
+
+  {
+    "id": 22,
+    "level": 2,
+    "complexity": 1,
+    "category": "Movies & TV",
+    "emojis": "🐉🔥🏰",
+    "answer": "Game of Thrones",
+    "points": 2,
+    "coins": 1
+  },
+  {
+    "id": 23,
+    "level": 2,
+    "complexity": 1,
+    "category": "Fairy tales & literature",
+    "emojis": "👧❤️🧺🐺",
+    "answer": "Little Red Riding Hood",
+    "points": 2,
+    "coins": 1
+  },
+  {
+    "id": 24,
+    "level": 2,
+    "complexity": 1,
+    "category": "Songs & Musicians",
+    "emojis": "⚡🎸",
+    "answer": "AC/DC",
+    "points": 2,
+    "coins": 1
+  },
+  {
+    "id": 25,
+    "level": 2,
+    "complexity": 1,
+    "category": "Celebrities & historical figures",
+    "emojis": "👨🚀🌑",
+    "answer": "Neil Armstrong",
+    "points": 2,
+    "coins": 1
+  },
+  {
+    "id": 26,
+    "level": 2,
+    "complexity": 1,
+    "category": "Food & Drinks",
+    "emojis": "🍦🍫",
+    "answer": "Chocolate Ice Cream",
+    "points": 2,
+    "coins": 1
+  },
+  {
+    "id": 27,
+    "level": 2,
+    "complexity": 1,
+    "category": "Animals & Nature",
+    "emojis": "🐦🎶",
+    "answer": "Songbird",
+    "points": 2,
+    "coins": 1
+  },
+
+  {
+    "id": 28,
+    "level": 2,
+    "complexity": 2,
+    "category": "Movies & TV",
+    "emojis": "🦁👑",
+    "answer": "The Lion King",
+    "points": 4,
+    "coins": 2
+  },
+  {
+    "id": 29,
+    "level": 2,
+    "complexity": 2,
+    "category": "Fairy tales & literature",
+    "emojis": "👑❄️👧",
+    "answer": "The Snow Queen",
+    "points": 4,
+    "coins": 2
+  },
+  {
+    "id": 30,
+    "level": 2,
+    "complexity": 2,
+    "category": "Songs & Musicians",
+    "emojis": "👨🕶️🎶",
+    "answer": "Stevie Wonder",
+    "points": 4,
+    "coins": 2
+  },
+  {
+    "id": 31,
+    "level": 2,
+    "complexity": 2,
+    "category": "Food & Drinks",
+    "emojis": "🍇🍷",
+    "answer": "Wine",
+    "points": 4,
+    "coins": 2
+  },
+  {
+    "id": 32,
+    "level": 2,
+    "complexity": 2,
+    "category": "Animals & Nature",
+    "emojis": "🐋🌊",
+    "answer": "Whale",
+    "points": 4,
+    "coins": 2
+  },
+
+  {
+    "id": 33,
+    "level": 2,
+    "complexity": 3,
+    "category": "Movies & TV",
+    "emojis": "👦🎈🤡",
+    "answer": "IT",
+    "points": 6,
+    "coins": 3
+  },
+  {
+    "id": 34,
+    "level": 2,
+    "complexity": 3,
+    "category": "Fairy tales & literature",
+    "emojis": "🤴⚔️🧝",
+    "answer": "The Lord of the Rings",
+    "points": 6,
+    "coins": 3
+  },
+  {
+    "id": 35,
+    "level": 2,
+    "complexity": 3,
+    "category": "Cities & Countries",
+    "emojis": "🐪🏜️",
+    "answer": "Egypt",
+    "points": 6,
+    "coins": 3
+  },
+  {
+    "id": 36,
+    "level": 2,
+    "complexity": 3,
+    "category": "Celebrities & historical figures",
+    "emojis": "👨🎹🕶",
+    "answer": "Ray Charles",
+    "points": 6,
+    "coins": 3
+  },
+
+  {
+    "id": 37,
+    "level": 2,
+    "complexity": 4,
+    "category": "Songs & Musicians",
+    "emojis": "🦋🎤👩",
+    "answer": "Mariah Carey",
+    "points": 8,
+    "coins": 4
+  },
+  {
+    "id": 38,
+    "level": 2,
+    "complexity": 4,
+    "category": "Food & Drinks",
+    "emojis": "🌭🔥",
+    "answer": "Hot Dog",
+    "points": 8,
+    "coins": 4
+  },
+  {
+    "id": 39,
+    "level": 2,
+    "complexity": 4,
+    "category": "Animals & Nature",
+    "emojis": "🐆🌍",
+    "answer": "Cheetah",
+    "points": 8,
+    "coins": 4
+  },
+
+  {
+    "id": 40,
+    "level": 2,
+    "complexity": 5,
+    "category": "Cities & Countries",
+    "emojis": "⛩️🇯🇵",
+    "answer": "Japan",
+    "points": 10,
+    "coins": 5
+  },
+  {
+    "id": 41,
+    "level": 2,
+    "complexity": 5,
+    "category": "Movies & TV",
+    "emojis": "🧛‍♂️🩸",
+    "answer": "Dracula",
+    "points": 10,
+    "coins": 5
+  },
+
+  {
+    "id": 42,
+    "level": 2,
+    "complexity": 6,
+    "category": "Fairy tales & literature",
+    "emojis": "🐉📜⚔️",
+    "answer": "Beowulf",
+    "points": 12,
+    "coins": 6
+  },
+
+  {
+    "id": 43,
+    "level": 3,
+    "complexity": 1,
+    "category": "Movies & TV",
+    "emojis": "👨🔬👽",
+    "answer": "Doctor Who",
+    "points": 3,
+    "coins": 1
+  },
+  {
+    "id": 44,
+    "level": 3,
+    "complexity": 1,
+    "category": "Fairy tales & literature",
+    "emojis": "🧜‍♀️🌊",
+    "answer": "The Little Mermaid",
+    "points": 3,
+    "coins": 1
+  },
+  {
+    "id": 45,
+    "level": 3,
+    "complexity": 1,
+    "category": "Songs & Musicians",
+    "emojis": "👨🎤👑",
+    "answer": "Michael Jackson",
+    "points": 3,
+    "coins": 1
+  },
+  {
+    "id": 46,
+    "level": 3,
+    "complexity": 1,
+    "category": "Food & Drinks",
+    "emojis": "🍞🧀",
+    "answer": "Grilled Cheese",
+    "points": 3,
+    "coins": 1
+  },
+  {
+    "id": 47,
+    "level": 3,
+    "complexity": 1,
+    "category": "Cities & Countries",
+    "emojis": "🍁🇨🇦",
+    "answer": "Canada",
+    "points": 3,
+    "coins": 1
+  },
+  {
+    "id": 48,
+    "level": 3,
+    "complexity": 1,
+    "category": "Animals & Nature",
+    "emojis": "🐎🌄",
+    "answer": "Wild Horse",
+    "points": 3,
+    "coins": 1
+  },
+
+  {
+    "id": 49,
+    "level": 3,
+    "complexity": 2,
+    "category": "Movies & TV",
+    "emojis": "🦇🦸‍♂️",
+    "answer": "Batman",
+    "points": 6,
+    "coins": 2
+  },
+  {
+    "id": 50,
+    "level": 3,
+    "complexity": 2,
+    "category": "Fairy tales & literature",
+    "emojis": "👩‍🦰🐻",
+    "answer": "Goldilocks and the Three Bears",
+    "points": 6,
+    "coins": 2
+  },
+  {
+    "id": 51,
+    "level": 3,
+    "complexity": 2,
+    "category": "Songs & Musicians",
+    "emojis": "👨🎤🕺",
+    "answer": "Freddie Mercury",
+    "points": 6,
+    "coins": 2
+  },
+  {
+    "id": 52,
+    "level": 3,
+    "complexity": 2,
+    "category": "Food & Drinks",
+    "emojis": "🍕🍅🧀",
+    "answer": "Pizza",
+    "points": 6,
+    "coins": 2
+  },
+  {
+    "id": 53,
+    "level": 3,
+    "complexity": 2,
+    "category": "Animals & Nature",
+    "emojis": "🐝🍯",
+    "answer": "Bee",
+    "points": 6,
+    "coins": 2
+  },
+
+  {
+    "id": 54,
+    "level": 3,
+    "complexity": 3,
+    "category": "Celebrities & historical figures",
+    "emojis": "👩🚀",
+    "answer": "Valentina Tereshkova",
+    "points": 9,
+    "coins": 3
+  },
+  {
+    "id": 55,
+    "level": 3,
+    "complexity": 3,
+    "category": "Movies & TV",
+    "emojis": "🚀👨‍🚀🌓",
+    "answer": "Apollo 13",
+    "points": 9,
+    "coins": 3
+  },
+  {
+    "id": 56,
+    "level": 3,
+    "complexity": 3,
+    "category": "Fairy tales & literature",
+    "emojis": "👦🌟🐯",
+    "answer": "The Little Prince",
+    "points": 9,
+    "coins": 3
+  },
+  {
+    "id": 57,
+    "level": 3,
+    "complexity": 3,
+    "category": "Songs & Musicians",
+    "emojis": "👨🎤👓",
+    "answer": "Elvis Costello",
+    "points": 9,
+    "coins": 3
+  },
+
+  {
+    "id": 58,
+    "level": 3,
+    "complexity": 4,
+    "category": "Food & Drinks",
+    "emojis": "🌮🌶️",
+    "answer": "Taco",
+    "points": 12,
+    "coins": 4
+  },
+  {
+    "id": 59,
+    "level": 3,
+    "complexity": 4,
+    "category": "Cities & Countries",
+    "emojis": "🗼🇯🇵",
+    "answer": "Tokyo",
+    "points": 12,
+    "coins": 4
+  },
+  {
+    "id": 60,
+    "level": 3,
+    "complexity": 4,
+    "category": "Animals & Nature",
+    "emojis": "🐨🌿",
+    "answer": "Koala",
+    "points": 12,
+    "coins": 4
+  },
+
+  {
+    "id": 61,
+    "level": 3,
+    "complexity": 5,
+    "category": "Movies & TV",
+    "emojis": "🔨⚡👨",
+    "answer": "Thor",
+    "points": 15,
+    "coins": 5
+  },
+  {
+    "id": 62,
+    "level": 3,
+    "complexity": 5,
+    "category": "Fairy tales & literature",
+    "emojis": "👩🌹👹",
+    "answer": "Beauty and the Beast",
+    "points": 15,
+    "coins": 5
+  },
+
+  {
+    "id": 63,
+    "level": 3,
+    "complexity": 6,
+    "category": "Songs & Musicians",
+    "emojis": "👨🎸🔥",
+    "answer": "Jimi Hendrix",
+    "points": 18,
+    "coins": 6
+  }
+  ]
+  
