@@ -21,8 +21,6 @@ dependencies:
     sdk: flutter
   flutter_svg: ^2.0.10+1
 
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -35,5 +33,10 @@ flutter:
      - assets/images/
      - assets/fonts/
      - assets/json/
+  fonts:
+    - family: Baloo Bhaijaan
+      fonts:
+        - asset: assets/fonts/baloo.ttf
+          weight: 400
 
  

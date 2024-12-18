@@ -1,3 +1,4 @@
+import 'package:emote_this/src/feature/game/presentation/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
@@ -29,7 +30,12 @@ GoRouter buildGoRouter = GoRouter(
      StatefulShellBranch(
           navigatorKey: _homeNavigatorKey,
           routes: <RouteBase>[
-           
+            GoRoute(
+              path: RouteValue.home.path,
+              builder: (BuildContext context, GoRouterState state) {
+                return HomeScreen();
+              },
+            ),
           
           ]),
        

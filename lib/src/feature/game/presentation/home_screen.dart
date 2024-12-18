@@ -1,16 +1,13 @@
-import 'package:emote_this/src/feature/game/bloc/game_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PuzzleScreen extends StatefulWidget {
-  final String puzzleId;
-  const PuzzleScreen({Key? key, required this.puzzleId}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<PuzzleScreen> createState() => _PuzzleScreenState();
+  State<HomeScreen> createState() => _PuzzleScreenState();
 }
 
-class _PuzzleScreenState extends State<PuzzleScreen> {
+class _PuzzleScreenState extends State<HomeScreen> {
   final TextEditingController _textController = TextEditingController();
   List<int> selectedNumbers = [];
   int chosenValue = 0;

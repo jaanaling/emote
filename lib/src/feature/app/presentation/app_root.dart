@@ -14,9 +14,10 @@ class AppRoot extends StatelessWidget {
         primaryColor: Color(0xFF1895FB),
         textTheme: CupertinoTextThemeData(
           textStyle: TextStyle(
-            fontFamily: 'Jellee',
+            fontFamily: 'Baloo Bhaijaan',
             fontWeight: FontWeight.w400,
             fontSize: 20,
+            color: Colors.black
           ),
         ),
       ),
