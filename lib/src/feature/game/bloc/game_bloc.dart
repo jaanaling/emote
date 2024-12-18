@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:emote_this/src/core/dependency_injection.dart';
 import 'package:emote_this/src/feature/game/repository/repository.dart';
 import 'package:equatable/equatable.dart';
 
@@ -17,25 +18,24 @@ part 'game_event.dart';
 part 'game_state.dart';
 
 class GameBloc extends Bloc<GameEvent, GameState> {
-  final RiddleRepository riddleRepository;
-  final AchievementRepository achievementRepository;
-  final UserRepository userRepository;
+  final RiddleRepository riddleRepository = locator<RiddleRepository>();
+  final AchievementRepository achievementRepository =
+      locator<AchievementRepository>();
+  final UserRepository userRepository = locator<UserRepository>();
 
   List<Riddle> _riddles = [];
   List<Achievement> _achievements = [];
   User? _user;
-  int _currentAttempts = 0; // Счётчик попыток
+  int currentAttempts = 0; // Счётчик попыток
 
-  GameBloc({
-    required this.riddleRepository,
-    required this.achievementRepository,
-    required this.userRepository,
-  }) : super(GameInitial()) {
+  GameBloc() : super(GameInitial()) {
     on<LoadGameData>(_onLoadGameData);
     on<SolveRiddle>(_onSolveRiddle);
     on<UnlockAchievement>(_onUnlockAchievement);
     on<UpdateUserData>(_onUpdateUserData);
     on<BuyHint>(_onBuyHint);
+    on<SubmitRiddleAnswer>(_onSubmitRiddleAnswer);
+    on<UseHint>(_onUseHint);
   }
 
   Future<void> _onLoadGameData(
@@ -46,7 +46,19 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     try {
       final riddles = await riddleRepository.load();
       final achievements = await achievementRepository.load();
-      final user = await userRepository.load();
+      final users = await userRepository.load();
+
+      final user = users ??
+          User(
+            id: 1,
+            points: 0,
+            coins: 20,
+            hints: 3,
+            obtainedAchievements: [],
+            solvedRiddles: [],
+            failedRiddles: [],
+            currentLevel: 1,
+          );
 
       _riddles = riddles;
       _achievements = achievements;
@@ -384,7 +396,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     }
   }
 
-    Future<void> _onSubmitRiddleAnswer(
+  Future<void> _onSubmitRiddleAnswer(
     SubmitRiddleAnswer event,
     Emitter<GameState> emit,
   ) async {
@@ -407,7 +419,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         coins: _user!.coins + riddle.coins,
         solvedRiddles: [..._user!.solvedRiddles, riddle.id],
       );
-      _currentAttempts = 0; // Сбрасываем попытки
+      currentAttempts = 0; // Сбрасываем попытки
       await userRepository.update(_user!);
 
       emit(GameLoaded(
@@ -418,13 +430,13 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       ));
     } else {
       // Неправильный ответ
-      _currentAttempts++;
-      if (_currentAttempts >= 3) {
+      currentAttempts++;
+      if (currentAttempts >= 3) {
         // Загадка проиграна
         _user = _user!.copyWith(
           failedRiddles: [..._user!.failedRiddles, riddle.id],
         );
-        _currentAttempts = 0; // Сбрасываем попытки
+        currentAttempts = 0; // Сбрасываем попытки
         await userRepository.update(_user!);
 
         emit(GameLoaded(
@@ -438,7 +450,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           riddles: _riddles,
           achievements: _achievements,
           user: _user,
-          message: 'Incorrect! Attempts left: ${3 - _currentAttempts}',
+          message: 'Incorrect! Attempts left: ${3 - currentAttempts}',
         ));
       }
     }

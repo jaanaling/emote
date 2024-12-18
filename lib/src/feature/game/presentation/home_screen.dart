@@ -13,9 +13,6 @@ class _PuzzleScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Column(
-          children: [],
-        ),
         AppBarWidget(tipsCount: 10, coinsCount: 10)
       ],
     );

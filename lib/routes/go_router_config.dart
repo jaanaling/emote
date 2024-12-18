@@ -1,4 +1,8 @@
+import 'package:emote_this/src/feature/game/presentation/achievements_screen.dart';
+import 'package:emote_this/src/feature/game/presentation/create_screen.dart';
 import 'package:emote_this/src/feature/game/presentation/home_screen.dart';
+import 'package:emote_this/src/feature/game/presentation/level_screen.dart';
+import 'package:emote_this/src/feature/game/presentation/quiz_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
@@ -27,7 +31,7 @@ GoRouter buildGoRouter = GoRouter(
         );
       },
       branches: [
-     StatefulShellBranch(
+        StatefulShellBranch(
           navigatorKey: _homeNavigatorKey,
           routes: <RouteBase>[
             GoRoute(
@@ -35,11 +39,52 @@ GoRouter buildGoRouter = GoRouter(
               builder: (BuildContext context, GoRouterState state) {
                 return HomeScreen();
               },
+              routes: [
+                GoRoute(
+                  path: RouteValue.achievements.path,
+                  builder: (BuildContext context, GoRouterState state) {
+                    return AchievementsScreen();
+                  },
+                ),
+                GoRoute(
+                  path: RouteValue.dayli.path,
+                  builder: (BuildContext context, GoRouterState state) {
+                    return QuizScreen(
+                      puzzleId: state.extra as int,
+                    );
+                  },
+                ),
+                GoRoute(
+                  path: RouteValue.create.path,
+                  builder: (BuildContext context, GoRouterState state) {
+                    return CreateScreen();
+                  },
+                ),
+                GoRoute(
+                  path: RouteValue.level.path,
+                  builder: (BuildContext context, GoRouterState state) {
+                    return LevelScreen(
+                      levelId: state.extra as int,
+                    );
+                  },
+                  routes: [
+                    GoRoute(
+                      path: RouteValue.quiz.path,
+                      builder: (
+                        BuildContext context,
+                        GoRouterState state,
+                      ) {
+                        return QuizScreen(
+                          puzzleId: state.extra as int,
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
-          
-          ]),
-       
-
+          ],
+        ),
       ],
     ),
     ShellRoute(

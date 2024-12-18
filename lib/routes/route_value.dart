@@ -1,27 +1,24 @@
 enum RouteValue {
-  splash(
+   splash(
     path: '/',
   ),
   home(
     path: '/home',
   ),
-  catalog(
-    path: '/catalog',
+  dayli(
+    path: 'dayli',
   ),
-  diary(
-    path: '/diary',
+  create(
+    path: 'create',
   ),
-  info(
-    path: 'info',
+  achievements(
+    path: 'achievements',
   ),
-  write(
-    path: 'write',
+  level(
+    path: 'level',
   ),
-  generator(
-    path: '/generator',
-  ),
-  tamples(
-    path: 'tamples',
+  quiz(
+    path: 'quiz',
   ),
 
   unknown(
