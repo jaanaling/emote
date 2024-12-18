@@ -1,3 +1,4 @@
+import 'package:emote_this/ui_kit/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -8,16 +9,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _PuzzleScreenState extends State<HomeScreen> {
-  final TextEditingController _textController = TextEditingController();
-  List<int> selectedNumbers = [];
-  int chosenValue = 0;
-  Map<String, String> userMatches = {};
-  int mathAnswer = 0;
-  String anagramSolution = '';
-  String cipherGuess = '';
-
   @override
   Widget build(BuildContext context) {
-    return const SizedBox.shrink();
+    return Stack(
+      children: [
+        Column(
+          children: [],
+        ),
+        AppBarWidget(tipsCount: 10, coinsCount: 10)
+      ],
+    );
   }
 }

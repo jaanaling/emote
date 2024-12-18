@@ -11,7 +11,7 @@ class AppRoot extends StatelessWidget {
     return CupertinoApp.router(
       theme: const CupertinoThemeData(
         brightness: Brightness.light,
-        primaryColor: Color(0xFF1895FB),
+        primaryColor: Color(0xFFFF48A0),
         textTheme: CupertinoTextThemeData(
           textStyle: TextStyle(
             fontFamily: 'Baloo Bhaijaan',
@@ -21,6 +21,21 @@ class AppRoot extends StatelessWidget {
           ),
         ),
       ),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData(
+            primaryColor: Color(0xFFFF48A0),
+            textTheme: TextTheme(
+              bodyLarge: TextStyle(
+                fontFamily: 'Baloo Bhaijaan',
+                fontSize: 20,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

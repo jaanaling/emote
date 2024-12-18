@@ -1,6 +1,9 @@
 enum IconProvider {
   splash(imageName: 'splash.png'),
   logo(imageName: 'logo.png'),
+  coins(imageName: 'coins.png'),
+  tip(imageName: 'tip.png'),
+  achievements(imageName: 'achievements.png'),
   unknown(imageName: '');
 
   const IconProvider({

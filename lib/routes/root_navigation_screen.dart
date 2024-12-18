@@ -1,3 +1,4 @@
+import 'package:emote_this/src/core/utils/app_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +18,6 @@ class RootNavigationScreen extends StatefulWidget {
 }
 
 class _RootNavigationScreenState extends State<RootNavigationScreen> {
-
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -26,17 +26,13 @@ class _RootNavigationScreenState extends State<RootNavigationScreen> {
         children: [
           Positioned.fill(
             child: DecoratedBox(
-              decoration: BoxDecoration(
-           
-              ),
+              decoration: BoxDecoration(color: Colors.white.withOpacity(0.4)),
+              child: AppIcon(asset: IconProvider.splash.buildImageUrl()),
             ),
           ),
           widget.navigationShell,
-        
         ],
       ),
     );
   }
-
-
 }
