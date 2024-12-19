@@ -1,6 +1,7 @@
 import 'package:emote_this/src/core/utils/app_icon.dart';
 import 'package:emote_this/src/core/utils/icon_provider.dart';
 import 'package:emote_this/src/core/utils/size_utils.dart';
+import 'package:emote_this/ui_kit/alert_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -59,7 +60,9 @@ class AppBarWidget extends StatelessWidget {
               Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    showBuyHintAlertDialog(context, coinsCount>=10);
+                  },
                   borderRadius: BorderRadius.circular(8),
                   child: SizedBox(
                     child: Column(

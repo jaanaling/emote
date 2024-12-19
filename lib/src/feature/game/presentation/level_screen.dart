@@ -137,13 +137,13 @@ class LevelScreen extends StatelessWidget {
   }
 
   Widget buildBall(Riddle challenge, User user, BuildContext context) {
-    String image;
+    List<Color> gradientColors = [];
     if (user.solvedRiddles.contains(challenge.id)) {
-      image = 'assets/images/grey_ball.png';
+      gradientColors = [Color(0xFFFFC600), Color(0xFFFF9900)];
     } else if (user.failedRiddles.contains(challenge.id)) {
-      image = 'assets/images/red_ball.png';
+      gradientColors = [Color(0xFFFF002D), Color(0xFF78080E)];
     } else {
-      image = 'assets/images/yellow_ball.png';
+      gradientColors = [Color(0xFF60FF00), Color(0xFF397808)];
     }
 
     return Material(
@@ -153,13 +153,18 @@ class LevelScreen extends StatelessWidget {
           '${RouteValue.home.path}/${RouteValue.level.path}/${RouteValue.quiz.path}',
           extra: challenge.id,
         ),
+        splashColor: gradientColors.first,
         borderRadius: BorderRadius.circular(32),
-        child: Ink.image(
+        child: Ink(
           width: MediaQuery.of(context).size.width * 0.12,
           height: MediaQuery.of(context).size.width * 0.12,
-          fit: BoxFit.cover,
-          image: AssetImage(
-            image,
+          decoration: ShapeDecoration(
+            gradient: LinearGradient(
+              begin: Alignment(0.00, -1.00),
+              end: Alignment(0, 1),
+              colors: gradientColors,
+            ),
+            shape: OvalBorder(),
           ),
         ),
       ),

@@ -1,12 +1,15 @@
 import 'dart:math';
-
+import 'package:emote_this/routes/go_router_config.dart';
 import 'package:emote_this/routes/route_value.dart';
 import 'package:emote_this/src/core/utils/size_utils.dart';
 import 'package:emote_this/ui_kit/app_bar.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import '../bloc/game_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,160 +22,177 @@ class _PuzzleScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final int score = 1000;
-    return Stack(
-      alignment: Alignment.topCenter,
-      children: [
-        SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 100),
-            child: Column(
-              children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const RoundedPieChart(
-                      value: 0.1,
-                    ),
-                    Text(
-                      '$score\nSCORE',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 26, height: 0.95),
-                    )
-                  ],
-                ),
-                const Gap(75),
-                const Text(
-                  'FAVORITE CATEGORY',
-                  style: TextStyle(fontSize: 30),
-                ),
-                Container(
-                  width: 211,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border:
-                          Border.all(color: const Color(0xFFE2E2E2), width: 2),
-                      borderRadius: BorderRadius.circular(22)),
-                  child: const Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 7),
-                      child: Text(
-                        'Movies',
-                        style: TextStyle(
-                          color: Color(0xFFFF48A0),
-                        ),
+    return BlocBuilder<GameBloc, GameState>(
+      builder: (context, state) {
+        if (state is GameLoaded) {
+          return Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 100),
+                  child: Column(
+                    children: [
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          const RoundedPieChart(
+                            value: 0.1,
+                          ),
+                          Text(
+                            '$score\nSCORE',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: 26, height: 0.95),
+                          )
+                        ],
                       ),
-                    ),
-                  ),
-                ),
-                Spacer(),
-                Material(
-                  color: Colors.transparent,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFF48A0),
-                        elevation: 0,
-                        padding: EdgeInsets.zero),
-                    child: SizedBox(
-                      width: 250,
-                      height: 37,
-                      child: Center(
-                        child: const Text(
-                          'Select level',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'Baloo Bhaijaan',
+                      const Gap(75),
+                      const Text(
+                        'FAVORITE CATEGORY',
+                        style: TextStyle(fontSize: 30),
+                      ),
+                      Container(
+                        width: 211,
+                        decoration: BoxDecoration(
                             color: Colors.white,
+                            border: Border.all(
+                                color: const Color(0xFFE2E2E2), width: 2),
+                            borderRadius: BorderRadius.circular(22)),
+                        child: const Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 7),
+                            child: Text(
+                              'Movies',
+                              style: TextStyle(
+                                color: Color(0xFFFF48A0),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-                Gap(7),
-                Material(
-                  color: Colors.transparent,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF8348FF),
-                        elevation: 0,
-                        padding: EdgeInsets.zero),
-                    child: SizedBox(
-                      width: 250,
-                      height: 37,
-                      child: Center(
-                        child: const Text(
-                          'Random riddle',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'Baloo Bhaijaan',
-                            color: Colors.white,
+                      Spacer(),
+                      Material(
+                        color: Colors.transparent,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            context.push(
+                                '${RouteValue.home.path}/${RouteValue.level.path}',
+                                extra: state.user!.currentLevel);
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFFF48A0),
+                              elevation: 0,
+                              padding: EdgeInsets.zero),
+                          child: SizedBox(
+                            width: 250,
+                            height: 37,
+                            child: Center(
+                              child: const Text(
+                                'Select level',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: 'Baloo Bhaijaan',
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-                Gap(7),
-                Material(
-                  color: Colors.transparent,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      context.push("${RouteValue.home.path}/${RouteValue.dayli.path}", extra: 1);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFF48A0),
-                        elevation: 0,
-                        padding: EdgeInsets.zero),
-                    child: SizedBox(
-                      width: 250,
-                      height: 37,
-                      child: Center(
-                        child: const Text(
-                          'Everyday riddle',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'Baloo Bhaijaan',
-                            color: Colors.white,
+                      Gap(7),
+                      Material(
+                        color: Colors.transparent,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF8348FF),
+                              elevation: 0,
+                              padding: EdgeInsets.zero),
+                          child: SizedBox(
+                            width: 250,
+                            height: 37,
+                            child: Center(
+                              child: const Text(
+                                'Random riddle',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: 'Baloo Bhaijaan',
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-                Gap(7),
-                Material(
-                  color: Colors.transparent,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF8348FF),
-                        elevation: 0,
-                        padding: EdgeInsets.zero),
-                    child: SizedBox(
-                      width: 250,
-                      height: 37,
-                      child: Center(
-                        child: const Text(
-                          'Create riddle',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'Baloo Bhaijaan',
-                            color: Colors.white,
+                      Gap(7),
+                      Material(
+                        color: Colors.transparent,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            context.push(
+                                "${RouteValue.home.path}/${RouteValue.dayli.path}",
+                                extra: 1);
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFFF48A0),
+                              elevation: 0,
+                              padding: EdgeInsets.zero),
+                          child: SizedBox(
+                            width: 250,
+                            height: 37,
+                            child: Center(
+                              child: const Text(
+                                'Everyday riddle',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: 'Baloo Bhaijaan',
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      Gap(7),
+                      Material(
+                        color: Colors.transparent,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF8348FF),
+                              elevation: 0,
+                              padding: EdgeInsets.zero),
+                          child: SizedBox(
+                            width: 250,
+                            height: 37,
+                            child: Center(
+                              child: const Text(
+                                'Create riddle',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: 'Baloo Bhaijaan',
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Gap(62)
+                    ],
                   ),
                 ),
-                Gap(62)
-              ],
-            ),
-          ),
-        ),
-        const AppBarWidget(tipsCount: 10, coinsCount: 10)
-      ],
+              ),
+              AppBarWidget(
+                  tipsCount: state.user!.hints, coinsCount: state.user!.coins)
+            ],
+          );
+        } else {
+          return Center(
+            child: CupertinoActivityIndicator(),
+          );
+        }
+      },
     );
   }
 }
