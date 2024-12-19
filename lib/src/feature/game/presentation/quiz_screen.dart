@@ -18,6 +18,13 @@ class _QuizScreenState extends State<QuizScreen> {
   List<bool> showColors = [];
   int currentIndex = 0;
 
+  final List<List<String>> keyboardRows = [
+    ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+    ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+    ['Z', 'X', 'C', 'V', 'B', 'N', 'M', '⌫'],
+    ['HINT', 'CONFIRM'],
+  ];
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GameBloc, GameState>(
@@ -33,14 +40,18 @@ class _QuizScreenState extends State<QuizScreen> {
         }
 
         if (state is GameLoaded) {
-          final answer = state.riddles
-              .firstWhere((puzzle) => puzzle.id == widget.puzzleId)
-              .answer
-              .split('');
+          final riddle = state.riddles
+              .firstWhere((puzzle) => puzzle.id == widget.puzzleId);
+          final answerStr = riddle.answer;
+          final answer = answerStr.split('');
           final answerLength = answer.length;
 
-          userInput =
-              userInput.isEmpty ? List.filled(answerLength, null) : userInput;
+          // Разбиваем ответ на слова
+          final words = answerStr.split(' ');
+
+          userInput = userInput.isEmpty
+              ? List.filled(answerLength, null)
+              : userInput;
           showColors = showColors.isEmpty
               ? List.filled(answerLength, false)
               : showColors;
@@ -54,13 +65,40 @@ class _QuizScreenState extends State<QuizScreen> {
               return KeyEventResult.handled;
             },
             child: Scaffold(
-              body: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildAnswerCells(answer, answerLength),
-                  const SizedBox(height: 20),
-                  _buildKeyboard(answerLength, answer),
-                ],
+              body: LayoutBuilder(
+                builder: (context, constraints) {
+                  final screenWidth = constraints.maxWidth;
+                  final screenHeight = constraints.maxHeight;
+
+                  final cellWidth = screenWidth * 0.12;
+                  final cellHeight = cellWidth * 1.5;
+
+                  int maxRowLength = keyboardRows
+                      .map((row) => row.length)
+                      .reduce((a, b) => a > b ? a : b);
+
+                  final keyWidth = (screenWidth - (maxRowLength * 4.0)) /
+                      (maxRowLength + 0.5);
+                  final keyHeight = keyWidth * 1.4;
+
+                  return Center(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            riddle.emojis,
+                            style: const TextStyle(fontSize: 60),
+                          ),
+                          SizedBox(height: screenHeight * 0.05),
+                          _buildAnswerLines(words, answer, cellWidth, cellHeight),
+                          SizedBox(height: screenHeight * 0.02),
+                          _buildKeyboard(answerLength, answer, keyWidth, keyHeight),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           );
@@ -70,23 +108,30 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  Widget _buildAnswerCells(List<String> answer, int answerLength) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(answerLength, (index) {
+  /// Отображаем ответ построчно по словам, пропуская пробелы в answer.
+  Widget _buildAnswerLines(
+      List<String> words, List<String> answer, double cellWidth, double cellHeight) {
+    List<Widget> lines = [];
+    int charIndex = 0;
+
+    for (int w = 0; w < words.length; w++) {
+      var word = words[w];
+      final wordLength = word.length;
+      // Ячейки одного слова
+      final cells = List.generate(wordLength, (i) {
+        int index = charIndex + i;
         Color color;
         if (!showColors[index]) {
-          // Серый до подтверждения
           color = Colors.grey;
         } else {
-          // После подтверждения устанавливаем цвет в зависимости от правильности
-          color =
-              (userInput[index] == answer[index]) ? Colors.green : Colors.red;
+          bool isGreen = (userInput[index]?.toLowerCase() ==
+              answer[index].toLowerCase());
+          color = isGreen ? Colors.green : Colors.red;
         }
+
         return Container(
-          margin: const EdgeInsets.all(5),
-          width: 50,
-          height: 60,
+          width: cellWidth,
+          height: cellHeight,
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(8),
@@ -94,30 +139,72 @@ class _QuizScreenState extends State<QuizScreen> {
           child: Center(
             child: Text(
               userInput[index] ?? '',
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: cellWidth * 0.6,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         );
-      }),
+      });
+
+      lines.add(Wrap(
+        alignment: WrapAlignment.center,
+        spacing: 10,
+        runSpacing: 10,
+        children: cells,
+      ));
+
+      // Переходим к следующему слову
+      charIndex += wordLength;
+
+      // Если не последнее слово - пропускаем пробел
+      if (w < words.length - 1) {
+        // В answer после слова должен быть пробел
+        // Пропускаем его
+        if (charIndex < answer.length && answer[charIndex] == ' ') {
+          charIndex++;
+        }
+        // Добавляем вертикальный отступ между словами
+        lines.add(SizedBox(height: cellHeight * 0.5));
+      }
+    }
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: lines,
     );
   }
 
-  Widget _buildKeyboard(int answerLength, List<String> answer) {
+  Widget _buildKeyboard(int answerLength, List<String> answer, double keyWidth,
+      double keyHeight) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: keyboardRows.map((row) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: row.map((letter) {
+            bool isWideButton = (letter == 'CONFIRM' || letter == 'HINT');
+
             return Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: ElevatedButton(
-                onPressed: () =>
-                    handleLetterInput(letter, answerLength, answer),
-                child: Text(
-                  letter,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+              padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 4.0),
+              child: SizedBox(
+                width: isWideButton ? keyWidth * 4 : keyWidth,
+                height: keyHeight,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                  ),
+                  onPressed: () => handleLetterInput(letter, answerLength, answer),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      letter,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+                    ),
+                  ),
                 ),
               ),
             );
@@ -127,60 +214,130 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
+  void revealHint(List<String> answer) {
+    // Найдём первую ячейку, которая не зелёная (неправильная или пустая)
+    for (int i = 0; i < answer.length; i++) {
+      if (answer[i] == ' ') continue;
+      bool isGreen = showColors[i] &&
+          userInput[i]?.toLowerCase() == answer[i].toLowerCase();
+      if (!isGreen) {
+        // Ставим правильный символ
+        userInput[i] = answer[i].toUpperCase();
+        // Делаем сразу зелёной
+        showColors[i] = true;
+        setState(() {});
+        break;
+      }
+    }
+  }
+
   void handleLetterInput(String letter, int answerLength, List<String> answer) {
     setState(() {
+      if (letter == 'HINT') {
+        revealHint(answer);
+        return;
+      }
+
       if (letter == '⌫') {
-        // Удаление символа
-        if (currentIndex > 0) {
-          // Предварительно смотрим на предыдущий индекс
-          int eraseIndex = currentIndex - 1;
-
-          if (showColors[eraseIndex]) {
-            // Ячейка окрашена после подтверждения
-            // Проверяем правильная ли (зелёная) или нет (красная)
-            bool isGreen = (userInput[eraseIndex] == answer[eraseIndex]);
-
-            if (isGreen) {
-              currentIndex = eraseIndex;
-              return;
-            } else {
-              // Красная ячейка - стираем символ и сбрасываем цвет в серый (showColors = false)
-              userInput[eraseIndex] = null;
-              showColors[eraseIndex] = false;
-              currentIndex = eraseIndex;
-            }
-          } else {
-            // Ячейка не окрашена (серая/пустая) - просто стираем
-            userInput[eraseIndex] = null;
-            currentIndex = eraseIndex;
-          }
-        }
+        handleBackspace(answer);
       } else if (letter == 'CONFIRM') {
-        // Отобразить цвета после подтверждения (только если все заполнены)
-        if (userInput.every((char) => char != null)) {
-          showColors = List.generate(userInput.length, (i) => true);
-
-          // Проверка результата
-          bool isCorrect =
-              List.generate(answerLength, (i) => userInput[i] == answer[i])
-                  .every((val) => val);
-          context
-              .read<GameBloc>()
-              .add(SubmitRiddleAnswer(widget.puzzleId, userInput.join()));
-          if (isCorrect) {
-            showResult(isCorrect);
-          }
-          if (!isCorrect && (context.read<GameBloc>().currentAttempts == 3)) {
-            showResult(isCorrect);
-          }
-        }
-      } else if (currentIndex < userInput.length) {
-      
-        userInput[currentIndex] = letter;
-        
-        currentIndex++;
+        handleConfirm(answerLength, answer);
+      } else {
+        handleCharacterInput(letter, answer);
       }
     });
+  }
+
+  void handleBackspace(List<String> answer) {
+    if (currentIndex > 0) {
+      int eraseIndex = currentIndex - 1;
+      // Ищем ячейку для стирания, пропуская пробелы и зелёные ячейки
+      while (eraseIndex >= 0) {
+        if (answer[eraseIndex] == ' ') {
+          eraseIndex--;
+          continue;
+        }
+        bool isGreen = showColors[eraseIndex] &&
+            userInput[eraseIndex]?.toLowerCase() == answer[eraseIndex].toLowerCase();
+        if (isGreen) {
+          eraseIndex--;
+          continue;
+        }
+        break;
+      }
+
+      if (eraseIndex >= 0 && answer[eraseIndex] != ' ') {
+        userInput[eraseIndex] = null;
+        showColors[eraseIndex] = false;
+        currentIndex = eraseIndex;
+      }
+    }
+  }
+
+  void handleConfirm(int answerLength, List<String> answer) {
+    // Проверяем, все ли не-пробельные ячейки заполнены
+    bool allFilled = true;
+    for (int i = 0; i < answerLength; i++) {
+      if (answer[i] == ' ') continue;
+      if (userInput[i] == null) {
+        allFilled = false;
+        break;
+      }
+    }
+
+    if (allFilled) {
+      showColors = List.generate(userInput.length, (i) => true);
+
+      bool isCorrect = true;
+      for (int i = 0; i < answerLength; i++) {
+        if (answer[i] == ' ') continue;
+        if (userInput[i]?.toLowerCase() != answer[i].toLowerCase()) {
+          isCorrect = false;
+          break;
+        }
+      }
+
+      context.read<GameBloc>().add(SubmitRiddleAnswer(widget.puzzleId, userInput.join()));
+      if (isCorrect) {
+        showResult(isCorrect);
+      }
+      if (!isCorrect && (context.read<GameBloc>().currentAttempts == 3)) {
+        showResult(isCorrect);
+      }
+    }
+  }
+
+  void handleCharacterInput(String letter, List<String> answer) {
+    moveCurrentIndexForward(answer, currentIndex);
+
+    if (currentIndex < userInput.length && answer[currentIndex] != ' ') {
+      bool isGreen = showColors[currentIndex] &&
+          userInput[currentIndex]?.toLowerCase() == answer[currentIndex].toLowerCase();
+      if (!isGreen) {
+        userInput[currentIndex] = letter.toUpperCase();
+      }
+
+      int nextIndex = currentIndex + 1;
+      moveCurrentIndexForward(answer, nextIndex);
+    }
+  }
+
+  void moveCurrentIndexForward(List<String> answer, int startIndex) {
+    int i = startIndex;
+    while (i < userInput.length) {
+      if (answer[i] == ' ') {
+        i++;
+        continue;
+      }
+      bool isGreen = showColors[i] &&
+          userInput[i]?.toLowerCase() == answer[i].toLowerCase();
+      if (isGreen) {
+        i++;
+        continue;
+      }
+      break;
+    }
+    currentIndex = (i <= userInput.length) ? i : userInput.length;
   }
 
   void handleKeyInput(
@@ -188,8 +345,6 @@ class _QuizScreenState extends State<QuizScreen> {
     final keyLabel = key.keyLabel.toUpperCase();
     if (keyLabel == 'BACKSPACE') {
       handleLetterInput('⌫', answerLength, answer);
-    } else if (keyLabel == ' ') {
-      handleLetterInput(' ', answerLength, answer);
     } else if (keyLabel.length == 1 && keyLabel.contains(RegExp(r'[A-Z]'))) {
       handleLetterInput(keyLabel, answerLength, answer);
     }
@@ -217,11 +372,4 @@ class _QuizScreenState extends State<QuizScreen> {
       ),
     );
   }
-
-  final List<List<String>> keyboardRows = [
-    ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-    ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-    ['Z', 'X', 'C', 'V', 'B', 'N', 'M', ' '],
-    ['⌫', 'CONFIRM'],
-  ];
 }

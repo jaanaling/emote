@@ -461,15 +461,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     UseHint event,
     Emitter<GameState> emit,
   ) async {
-    if (_user == null || _user!.coins < 10) {
-      emit(const GameError('Not enough coins to use a hint'));
-      return;
-    }
-
     // Списываем 10 монет и добавляем подсказку
     _user = _user!.copyWith(
-      coins: _user!.coins - 10,
-      hints: _user!.hints + 1,
+      hints: _user!.hints - 1,
     );
 
     await userRepository.update(_user!);

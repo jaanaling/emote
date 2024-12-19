@@ -1,10 +1,12 @@
 import 'dart:math';
 
+import 'package:emote_this/routes/route_value.dart';
 import 'package:emote_this/src/core/utils/size_utils.dart';
 import 'package:emote_this/ui_kit/app_bar.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -116,7 +118,9 @@ class _PuzzleScreenState extends State<HomeScreen> {
                 Material(
                   color: Colors.transparent,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.push("${RouteValue.home.path}/${RouteValue.dayli.path}", extra: 1);
+                    },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFFF48A0),
                         elevation: 0,
