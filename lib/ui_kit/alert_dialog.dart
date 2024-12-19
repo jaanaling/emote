@@ -77,8 +77,8 @@ void showBuyHintAlertDialog(BuildContext context, bool isEnough) {
                 const Text(
                   "BUY A HINT",
                   style: TextStyle(
-                    color: Colors.yellow,
-                    fontSize: 22,
+                    color: Color(0xFFF7D931),
+                    fontSize: 36,
                     fontFamily: 'Baloo Bhaijaan',
                   ),
                 ),

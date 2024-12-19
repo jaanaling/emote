@@ -1,11 +1,17 @@
 import 'package:emote_this/routes/route_value.dart';
+import 'package:emote_this/src/core/utils/app_icon.dart';
+import 'package:emote_this/src/core/utils/icon_provider.dart';
 import 'package:emote_this/src/feature/game/bloc/game_bloc.dart';
 import 'package:emote_this/src/feature/game/model/riddle.dart';
 import 'package:emote_this/src/feature/game/model/user.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../ui_kit/app_bar.dart';
+import 'home_screen.dart';
 
 class LevelScreen extends StatelessWidget {
   final int levelId;
@@ -19,7 +25,7 @@ class LevelScreen extends StatelessWidget {
       builder: (context, state) {
         if (state is GameLoading) {
           return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
+            body: Center(child: CupertinoActivityIndicator()),
           );
         }
         if (state is GameError) {
@@ -40,43 +46,69 @@ class LevelScreen extends StatelessWidget {
                 0,
                 (previousValue, element) => previousValue + element.points,
               );
-          return Column(
+          return Stack(
             children: [
-              _buildBackButtonAndTitle(context, levelId),
-              _buildLevelContent(context, riddles, state.user!),
-              _buildProgressIndicator(allScore, userScore),
+              Padding(
+                padding: const EdgeInsets.only(top: 50),
+                child: SafeArea(
+                  child: Column(
+                    children: [
+                      Gap(21),
+                      Text(
+                        'LEVEL 1',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 40,
+                          fontFamily: 'Baloo Bhaijaan',
+                          fontWeight: FontWeight.w400,
+                          height: 1,
+                        ),
+                      ),
+                      Gap(30),
+                      _buildLevelContent(context, riddles, state.user!),
+                      Spacer(),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          RoundedPieChart(
+                            value: userScore/allScore,
+                          ),
+                          Text(
+                            '$userScore\nSCORE',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: 26, height: 0.95),
+                          )
+                        ],
+                      ),
+                      Spacer(),
+                      Text(
+                        '${allScore - userScore} LEFT',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 26,
+                          fontFamily: 'Baloo Bhaijaan',
+                          fontWeight: FontWeight.w400,
+                          height: 1,
+                        ),
+                      ),
+                      Gap(19)
+                    ],
+                  ),
+                ),
+              ),
+              AppBarWidget(
+                tipsCount: state.user!.hints,
+                coinsCount: state.user!.coins,
+                title: 'Select level',
+                hasBackButton: true,
+              )
             ],
           );
         }
-        return const SizedBox.shrink();
+        return const Center(child: CupertinoActivityIndicator());
       },
-    );
-  }
-
-  // Верхняя секция с кнопкой "назад" и названием уровня
-  Widget _buildBackButtonAndTitle(BuildContext context, int levelId) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              context.pop();
-            },
-          ),
-          Text(
-            "LEVEL $levelId",
-            style: const TextStyle(
-              color: Colors.yellow,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(width: 40), // Пустое пространство
-        ],
-      ),
     );
   }
 
@@ -84,54 +116,83 @@ class LevelScreen extends StatelessWidget {
   Widget _buildLevelContent(
       BuildContext context, List<Riddle> riddles, User user) {
     return Center(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.6,
-        child: ListView.separated(
-          reverse: true,
-          itemCount: 6,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          physics: const NeverScrollableScrollPhysics(),
-          separatorBuilder: (context, index) => const Gap(6),
-          itemBuilder: (context, difficultyIndex) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'X${difficultyIndex + 1}',
-                  style: const TextStyle(
-                    fontSize: 26,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: Color(0xFFFF489F),
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+              ),
+            ),
+            child: Column(
+              children: List.generate(6, (index) {
+                return Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 6.0,
                   ),
-                ),
-                const Spacer(),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.15,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: Row(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.12,
+                    width: 30,
+                    child: Center(
+                      child: Text(
+                        'X${6 - index}',
+                        style:
+                            const TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+          Expanded(
+            child: SizedBox(
+              height: (MediaQuery.of(context).size.width * 0.12 + 6) * 6,
+              child: ListView.separated(
+                reverse: true,
+                itemCount: 6,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                physics: const NeverScrollableScrollPhysics(),
+                separatorBuilder: (context, index) => const Gap(6),
+                itemBuilder: (context, difficultyIndex) {
+                  return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: riddles
-                        .where(
-                          (e) =>
-                              e.level == levelId &&
-                              e.complexity == difficultyIndex + 1,
-                        )
-                        .map(
-                          (challenge) => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 2),
-                            child: buildBall(
-                              challenge,
-                              user,
-                              context,
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
-                const Spacer(),
-              ],
-            );
-          },
-        ),
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.12,
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: riddles
+                              .where(
+                                (e) =>
+                                    e.level == levelId &&
+                                    e.complexity == difficultyIndex + 1,
+                              )
+                              .map(
+                                (challenge) => Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 2),
+                                  child: buildBall(
+                                    challenge,
+                                    user,
+                                    context,
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -155,59 +216,71 @@ class LevelScreen extends StatelessWidget {
         ),
         splashColor: gradientColors.first,
         borderRadius: BorderRadius.circular(32),
-        child: Ink(
-          width: MediaQuery.of(context).size.width * 0.12,
-          height: MediaQuery.of(context).size.width * 0.12,
-          decoration: ShapeDecoration(
-            gradient: LinearGradient(
-              begin: Alignment(0.00, -1.00),
-              end: Alignment(0, 1),
-              colors: gradientColors,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Ink(
+              width: MediaQuery.of(context).size.width * 0.12,
+              height: MediaQuery.of(context).size.width * 0.12,
+              decoration: ShapeDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment(0.00, -1.00),
+                  end: Alignment(0, 1),
+                  colors: gradientColors,
+                ),
+                shape: OvalBorder(),
+              ),
             ),
-            shape: OvalBorder(),
-          ),
+            _getIconByCategory(challenge.category)
+          ],
         ),
       ),
     );
   }
 
-  // Ряд с шариками и их количеством
-
-  // Нижняя секция с прогрессом уровня
-  Widget _buildProgressIndicator(int score, int userScore) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              const SizedBox(
-                height: 120,
-                width: 120,
-                child: CircularProgressIndicator(
-                  value: 0.5, // Пример значения прогресса
-                  strokeWidth: 12,
-                  color: Colors.pink,
-                ),
-              ),
-              Text(
-                score.toString(),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Text(
-            (score - userScore).toString(),
-            style: const TextStyle(color: Colors.white, fontSize: 18),
-          ),
-        ],
-      ),
+  Widget _getIconByCategory(String category) {
+    switch (category) {
+      case 'Movies & TV':
+        return AppIcon(
+          asset: IconProvider.movie.buildImageUrl(),
+          width: 24,
+          height: 28,
+        );
+      case 'Fairy tales & literature':
+        return AppIcon(
+          asset: IconProvider.books.buildImageUrl(),
+          width: 30,
+          height: 26,
+        );
+      case 'Songs & Musicians':
+        return AppIcon(
+          asset: IconProvider.music.buildImageUrl(),
+          width: 27,
+          height: 25,
+        );
+      case 'Food & Drinks':
+        return AppIcon(
+          asset: IconProvider.food.buildImageUrl(),
+          width: 26,
+          height: 27,
+        );
+      case 'Animals & Nature':
+        return AppIcon(
+          asset: IconProvider.animals.buildImageUrl(),
+          width: 25.14,
+          height: 25.54,
+        );
+      case 'Celebrities & historical figures':
+        return AppIcon(
+          asset: IconProvider.stars.buildImageUrl(),
+          width: 13,
+          height: 30,
+        );
+    }
+    return AppIcon(
+      asset: IconProvider.country.buildImageUrl(),
+      width: 36,
+      height: 36,
     );
   }
 }

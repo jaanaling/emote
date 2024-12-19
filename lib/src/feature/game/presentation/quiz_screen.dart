@@ -1,8 +1,14 @@
+import 'package:emote_this/src/core/utils/app_icon.dart';
+import 'package:emote_this/src/core/utils/icon_provider.dart';
 import 'package:emote_this/src/feature/game/bloc/game_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:haptic_feedback/haptic_feedback.dart';
+
+import '../../../../ui_kit/app_bar.dart';
 
 class QuizScreen extends StatefulWidget {
   final int puzzleId;
@@ -13,10 +19,15 @@ class QuizScreen extends StatefulWidget {
   State<QuizScreen> createState() => _QuizScreenState();
 }
 
-class _QuizScreenState extends State<QuizScreen> {
+class _QuizScreenState extends State<QuizScreen>
+    with SingleTickerProviderStateMixin {
   List<String?> userInput = [];
   List<bool> showColors = [];
   int currentIndex = 0;
+
+  // Анимация тряски
+  late AnimationController _shakeController;
+  late Animation<double> _shakeAnimation;
 
   final List<List<String>> keyboardRows = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -24,6 +35,24 @@ class _QuizScreenState extends State<QuizScreen> {
     ['Z', 'X', 'C', 'V', 'B', 'N', 'M', '⌫'],
     ['HINT', 'CONFIRM'],
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _shakeController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    _shakeAnimation = Tween<double>(begin: 0, end: 10)
+        .chain(CurveTween(curve: Curves.elasticIn))
+        .animate(_shakeController);
+  }
+
+  @override
+  void dispose() {
+    _shakeController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +78,8 @@ class _QuizScreenState extends State<QuizScreen> {
           // Разбиваем ответ на слова
           final words = answerStr.split(' ');
 
-          userInput = userInput.isEmpty
-              ? List.filled(answerLength, null)
-              : userInput;
+          userInput =
+              userInput.isEmpty ? List.filled(answerLength, null) : userInput;
           showColors = showColors.isEmpty
               ? List.filled(answerLength, false)
               : showColors;
@@ -64,42 +92,142 @@ class _QuizScreenState extends State<QuizScreen> {
               }
               return KeyEventResult.handled;
             },
-            child: Scaffold(
-              body: LayoutBuilder(
-                builder: (context, constraints) {
-                  final screenWidth = constraints.maxWidth;
-                  final screenHeight = constraints.maxHeight;
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final screenWidth = constraints.maxWidth;
+                final screenHeight = constraints.maxHeight;
 
-                  final cellWidth = screenWidth * 0.12;
-                  final cellHeight = cellWidth * 1.5;
+                final cellWidth = screenWidth * 0.1;
+                final cellHeight = cellWidth * 1.5;
 
-                  int maxRowLength = keyboardRows
-                      .map((row) => row.length)
-                      .reduce((a, b) => a > b ? a : b);
+                int maxRowLength = keyboardRows
+                    .map((row) => row.length)
+                    .reduce((a, b) => a > b ? a : b);
 
-                  final keyWidth = (screenWidth - (maxRowLength * 4.0)) /
-                      (maxRowLength + 0.5);
-                  final keyHeight = keyWidth * 1.4;
+                final keyWidth =
+                    (screenWidth - (maxRowLength * 4.0)) / (maxRowLength + 0.5);
+                final keyHeight = keyWidth * 1.4;
 
-                  return Center(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            riddle.emojis,
-                            style: const TextStyle(fontSize: 60),
-                          ),
-                          SizedBox(height: screenHeight * 0.05),
-                          _buildAnswerLines(words, answer, cellWidth, cellHeight),
-                          SizedBox(height: screenHeight * 0.02),
-                          _buildKeyboard(answerLength, answer, keyWidth, keyHeight),
-                        ],
+                return Stack(
+                  children: [
+                    SafeArea(
+                      bottom: false,
+                      child: Center(
+                        child: Column(
+                          children: [
+                            const Gap(73),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    height: 128,
+                                    width: double.infinity,
+                                    decoration: ShapeDecoration(
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                            width: 1, color: Color(0xFFFF489F)),
+                                        borderRadius: BorderRadius.circular(18),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        riddle.emojis,
+                                        style: const TextStyle(fontSize: 60),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 10,
+                                    top: 5,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        AppIcon(
+                                          asset: IconProvider.heart
+                                              .buildImageUrl(),
+                                          width: 22.17,
+                                          height: 22.17,
+                                        ),
+                                        Container(
+                                          width: 35,
+                                          decoration: ShapeDecoration(
+                                            color: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              side: BorderSide(
+                                                  width: 1,
+                                                  color: Color(0xFFE2E2E2)),
+                                              borderRadius:
+                                                  BorderRadius.circular(18),
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              context
+                                                  .read<GameBloc>()
+                                                  .currentAttempts
+                                                  .toString(),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontFamily: 'Baloo Bhaijaan',
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: screenHeight * 0.05),
+                            AnimatedBuilder(
+                              animation: _shakeController,
+                              builder: (context, child) {
+                                return Transform.translate(
+                                  offset: Offset(
+                                    _shakeAnimation.value *
+                                        (_shakeController.isAnimating ? 1 : 0),
+                                    0,
+                                  ),
+                                  child: child,
+                                );
+                              },
+                              child: _buildAnswerLines(
+                                  words, answer, cellWidth, cellHeight),
+                            ),
+                            const Spacer(),
+                            DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: Color(0xFFd1d5d8),
+                              ),
+                              child: SafeArea(
+                                top: false,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 16),
+                                  child: _buildKeyboard(answerLength, answer,
+                                      keyWidth, keyHeight, state.user!.hints),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  );
-                },
-              ),
+                    AppBarWidget(
+                      tipsCount: state.user!.hints,
+                      coinsCount: state.user!.coins,
+                      title: 'Level ${state.user!.currentLevel}',
+                      hasBackButton: true,
+                    )
+                  ],
+                );
+              },
             ),
           );
         }
@@ -109,8 +237,8 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   /// Отображаем ответ построчно по словам, пропуская пробелы в answer.
-  Widget _buildAnswerLines(
-      List<String> words, List<String> answer, double cellWidth, double cellHeight) {
+  Widget _buildAnswerLines(List<String> words, List<String> answer,
+      double cellWidth, double cellHeight) {
     List<Widget> lines = [];
     int charIndex = 0;
 
@@ -122,19 +250,22 @@ class _QuizScreenState extends State<QuizScreen> {
         int index = charIndex + i;
         Color color;
         if (!showColors[index]) {
-          color = Colors.grey;
+          color = const Color(0xFFC4C4C4);
         } else {
-          bool isGreen = (userInput[index]?.toLowerCase() ==
-              answer[index].toLowerCase());
-          color = isGreen ? Colors.green : Colors.red;
+          bool isGreen =
+              (userInput[index]?.toLowerCase() == answer[index].toLowerCase());
+          color = isGreen ? const Color(0xFFB3FFA6) : const Color(0xFFFFA6A6);
         }
 
         return Container(
           width: cellWidth,
           height: cellHeight,
-          decoration: BoxDecoration(
+          decoration: ShapeDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(8),
+            shape: RoundedRectangleBorder(
+              side: const BorderSide(width: 1, color: Color(0xFFFF489F)),
+              borderRadius: BorderRadius.circular(5),
+            ),
           ),
           child: Center(
             child: Text(
@@ -177,7 +308,16 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   Widget _buildKeyboard(int answerLength, List<String> answer, double keyWidth,
-      double keyHeight) {
+      double keyHeight, int hintsCount) {
+    bool allFilled = true;
+    for (int i = 0; i < answerLength; i++) {
+      if (answer[i] == ' ') continue;
+      if (userInput[i] == null) {
+        allFilled = false;
+        break;
+      }
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: keyboardRows.map((row) {
@@ -187,7 +327,8 @@ class _QuizScreenState extends State<QuizScreen> {
             bool isWideButton = (letter == 'CONFIRM' || letter == 'HINT');
 
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 4.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 2.0, vertical: 4.0),
               child: SizedBox(
                 width: isWideButton ? keyWidth * 4 : keyWidth,
                 height: keyHeight,
@@ -195,14 +336,19 @@ class _QuizScreenState extends State<QuizScreen> {
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,
                   ),
-                  onPressed: () => handleLetterInput(letter, answerLength, answer),
+                  onPressed: ((letter == 'CONFIRM' && !allFilled) ||
+                          (letter == 'HINT' && hintsCount == 0))
+                      ? null
+                      : () => handleLetterInput(letter, answerLength, answer),
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
                       letter,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
                     ),
                   ),
                 ),
@@ -258,7 +404,8 @@ class _QuizScreenState extends State<QuizScreen> {
           continue;
         }
         bool isGreen = showColors[eraseIndex] &&
-            userInput[eraseIndex]?.toLowerCase() == answer[eraseIndex].toLowerCase();
+            userInput[eraseIndex]?.toLowerCase() ==
+                answer[eraseIndex].toLowerCase();
         if (isGreen) {
           eraseIndex--;
           continue;
@@ -274,8 +421,7 @@ class _QuizScreenState extends State<QuizScreen> {
     }
   }
 
-  void handleConfirm(int answerLength, List<String> answer) {
-    // Проверяем, все ли не-пробельные ячейки заполнены
+  Future<void> handleConfirm(int answerLength, List<String> answer) async {
     bool allFilled = true;
     for (int i = 0; i < answerLength; i++) {
       if (answer[i] == ' ') continue;
@@ -297,13 +443,20 @@ class _QuizScreenState extends State<QuizScreen> {
         }
       }
 
-      context.read<GameBloc>().add(SubmitRiddleAnswer(widget.puzzleId, userInput.join()));
-      if (isCorrect) {
-        showResult(isCorrect);
+      context
+          .read<GameBloc>()
+          .add(SubmitRiddleAnswer(widget.puzzleId, userInput.join()));
+
+      if (!isCorrect) {
+        _shakeController.reset();
+        _shakeController.forward();
+        final canVibrate = await Haptics.canVibrate();
+        if (canVibrate) {
+          await Haptics.vibrate(HapticsType.error);
+        }
       }
-      if (!isCorrect && (context.read<GameBloc>().currentAttempts == 3)) {
-        showResult(isCorrect);
-      }
+
+      showResult(isCorrect, answer.join());
     }
   }
 
@@ -312,7 +465,8 @@ class _QuizScreenState extends State<QuizScreen> {
 
     if (currentIndex < userInput.length && answer[currentIndex] != ' ') {
       bool isGreen = showColors[currentIndex] &&
-          userInput[currentIndex]?.toLowerCase() == answer[currentIndex].toLowerCase();
+          userInput[currentIndex]?.toLowerCase() ==
+              answer[currentIndex].toLowerCase();
       if (!isGreen) {
         userInput[currentIndex] = letter.toUpperCase();
       }
@@ -350,26 +504,226 @@ class _QuizScreenState extends State<QuizScreen> {
     }
   }
 
-  void showResult(bool isCorrect) {
+  void showResult(bool isCorrect, String answer) {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: Text(isCorrect ? 'You Win!' : 'Try Again!'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              context.pop();
-              setState(() {
-                userInput = List.filled(userInput.length, null);
-                showColors = List.filled(userInput.length, false);
-                currentIndex = 0;
-              });
-            },
-            child: const Text('OK'),
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          backgroundColor: isCorrect ? Color(0xFF002904) : Color(0xFF530005),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(38),
           ),
-        ],
-      ),
+          content: Padding(
+            padding: const EdgeInsets.only(bottom: 3, right: 3),
+            child: Container(
+              decoration: BoxDecoration(
+                color: isCorrect ? Color(0xFF47BB34) : Color(0xFFFF4853),
+                borderRadius: BorderRadius.circular(35),
+                border: Border.all(
+                    color: isCorrect ? Color(0xFF005913) : Color(0xFFC00000),
+                    width: 5),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Gap(11),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(35),
+                          onTap: () {
+                            context
+                              ..pop()
+                              ..pop();
+                          },
+                          child: Ink(
+                            width: 29,
+                            height: 29,
+                            decoration: const ShapeDecoration(
+                              gradient: LinearGradient(
+                                colors: [Color(0xFFe5e5e5), Colors.white],
+                              ),
+                              shape: OvalBorder(),
+                            ),
+                            child: Center(
+                              child: Ink(
+                                width: 21,
+                                height: 29,
+                                decoration: const ShapeDecoration(
+                                  shape: OvalBorder(),
+                                  color: Colors.white,
+                                ),
+                                child: const Center(
+                                  child: AppIcon(
+                                    asset: 'assets/images/close.svg',
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    isCorrect ? "YOU WIN!" : 'YOU LOSE!',
+                    style: TextStyle(
+                      color: Color(0xFFF7D931),
+                      fontSize: 36,
+                      fontFamily: 'Baloo Bhaijaan',
+                    ),
+                  ),
+                  if (isCorrect)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 13),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Word: $answer',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontFamily: 'Baloo Bhaijaan',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          Text(
+                            'Your reward:',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFFF7D931),
+                              fontSize: 20,
+                              fontFamily: 'Baloo Bhaijaan',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Gap(10),
+                                  AppIcon(
+                                    width: 71,
+                                    height: 63.25,
+                                    asset: IconProvider.score.buildImageUrl(),
+                                  ),
+                                  const Gap(8),
+                                  Container(
+                                    width: 88,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: const Color(0xFFE2E2E2),
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(22),
+                                    ),
+                                    child: const Center(
+                                      child: Text(
+                                        '10',
+                                        style: TextStyle(
+                                          fontSize: 24,
+                                          fontFamily: 'Baloo Bhaijaan',
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Gap(10),
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  AppIcon(
+                                    asset: IconProvider.coins.buildImageUrl(),
+                                    width: 55,
+                                    height: 49,
+                                  ),
+                                  const Gap(8),
+                                  Container(
+                                    width: 88,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: const Color(0xFFE2E2E2),
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(22),
+                                    ),
+                                    child: const Center(
+                                      child: Text(
+                                        '1',
+                                        style: TextStyle(
+                                          fontSize: 24,
+                                          fontFamily: 'Baloo Bhaijaan',
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  AppIcon(
+                    asset: isCorrect
+                        ? IconProvider.win.buildImageUrl()
+                        : IconProvider.lose.buildImageUrl(),
+                    width: isCorrect ? 163 : 158,
+                    height: isCorrect ? 158 : 159,
+                  ),
+                  const Gap(38),
+                  Material(
+                    color: Colors.transparent,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        context
+                          ..pop()
+                          ..pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        disabledBackgroundColor: Colors.grey[600],
+                        backgroundColor: const Color(0xFF8348FF),
+                        elevation: 0,
+                        padding: EdgeInsets.zero,
+                      ),
+                      child: SizedBox(
+                        width: 147,
+                        child: Center(
+                          child: Text(
+                            'CLOSE',
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontFamily: 'Baloo Bhaijaan',
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Gap(17)
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
