@@ -424,6 +424,7 @@ class _QuizScreenState extends State<QuizScreen>
 
   Future<void> handleConfirm(int answerLength, List<String> answer) async {
     bool allFilled = true;
+    final canVibrate = await Haptics.canVibrate();
     for (int i = 0; i < answerLength; i++) {
       if (answer[i] == ' ') continue;
       if (userInput[i] == null) {
@@ -447,7 +448,6 @@ class _QuizScreenState extends State<QuizScreen>
       if (!isCorrect) {
         _shakeController.reset();
         _shakeController.forward();
-        final canVibrate = await Haptics.canVibrate();
         if (canVibrate) {
           await Haptics.vibrate(HapticsType.error);
         }
@@ -458,6 +458,10 @@ class _QuizScreenState extends State<QuizScreen>
         context.read<GameBloc>().add(SubmitRiddleAnswer(
             widget.puzzleId, userInput.map((e) => e ?? "").toList()));
         return;
+      } else {
+        if (canVibrate) {
+          await Haptics.vibrate(HapticsType.success);
+        }
       }
       context.read<GameBloc>().add(SubmitRiddleAnswer(
           widget.puzzleId, userInput.map((e) => e ?? "").toList()));

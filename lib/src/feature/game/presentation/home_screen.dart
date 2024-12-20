@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/utils/app_icon.dart';
+import '../../../core/utils/icon_provider.dart';
 import '../bloc/game_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -82,11 +84,18 @@ class _PuzzleScreenState extends State<HomeScreen> {
                         child: Center(
                           child: Padding(
                             padding: EdgeInsets.symmetric(vertical: 7),
-                            child: Text(
-                              favoriteCategory,
-                              style: TextStyle(
-                                color: Color(0xFFFF48A0),
-                              ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                if(favoriteCategory!='Unknown')
+                                _getIconByCategory(favoriteCategory),
+                                Text(
+                                  favoriteCategory,
+                                  style: TextStyle(
+                                    color: Color(0xFFFF48A0),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -187,7 +196,8 @@ class _PuzzleScreenState extends State<HomeScreen> {
                       Material(
                         color: Colors.transparent,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {context.push(
+                              "${RouteValue.home.path}/${RouteValue.create.path}");},
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF8348FF),
                               elevation: 0,
@@ -225,6 +235,53 @@ class _PuzzleScreenState extends State<HomeScreen> {
       },
     );
   }
+}
+
+
+Widget _getIconByCategory(String category) {
+  switch (category) {
+    case 'Movies & TV':
+      return AppIcon(
+        asset: IconProvider.movie.buildImageUrl(),
+        width: 24,
+        height: 28,
+      );
+    case 'Fairy tales & literature':
+      return AppIcon(
+        asset: IconProvider.books.buildImageUrl(),
+        width: 30,
+        height: 26,
+      );
+    case 'Songs & Musicians':
+      return AppIcon(
+        asset: IconProvider.music.buildImageUrl(),
+        width: 27,
+        height: 25,
+      );
+    case 'Food & Drinks':
+      return AppIcon(
+        asset: IconProvider.food.buildImageUrl(),
+        width: 26,
+        height: 27,
+      );
+    case 'Animals & Nature':
+      return AppIcon(
+        asset: IconProvider.animals.buildImageUrl(),
+        width: 25.14,
+        height: 25.54,
+      );
+    case 'Celebrities & historical figures':
+      return AppIcon(
+        asset: IconProvider.stars.buildImageUrl(),
+        width: 13,
+        height: 30,
+      );
+  }
+  return AppIcon(
+    asset: IconProvider.country.buildImageUrl(),
+    width: 36,
+    height: 36,
+  );
 }
 
 class RoundedPieChart extends StatefulWidget {

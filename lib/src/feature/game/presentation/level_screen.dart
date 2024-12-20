@@ -167,48 +167,46 @@ class _LevelScreenState extends State<LevelScreen> {
           Expanded(
             child: Stack(
               children: [
-                Expanded(
-                  child: SizedBox(
-                    height: (MediaQuery.of(context).size.width * 0.12 + 6) * 6,
-                    child: ListView.separated(
-                      reverse: true,
-                      itemCount: 6,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      physics: const NeverScrollableScrollPhysics(),
-                      separatorBuilder: (context, index) => const Gap(6),
-                      itemBuilder: (context, difficultyIndex) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: MediaQuery.of(context).size.width * 0.12,
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: riddles
-                                    .where(
-                                      (e) =>
-                                          e.level == level &&
-                                          e.complexity == difficultyIndex + 1,
-                                    )
-                                    .map(
-                                      (challenge) => Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 2),
-                                        child: buildBall(
-                                          challenge,
-                                          user,
-                                          context,
-                                        ),
+                SizedBox(
+                  height: (MediaQuery.of(context).size.width * 0.12 + 6) * 6,
+                  child: ListView.separated(
+                    reverse: true,
+                    itemCount: 6,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    physics: const NeverScrollableScrollPhysics(),
+                    separatorBuilder: (context, index) => const Gap(6),
+                    itemBuilder: (context, difficultyIndex) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.width * 0.12,
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: riddles
+                                  .where(
+                                    (e) =>
+                                        e.level == level &&
+                                        e.complexity == difficultyIndex + 1,
+                                  )
+                                  .map(
+                                    (challenge) => Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 2),
+                                      child: buildBall(
+                                        challenge,
+                                        user,
+                                        context,
                                       ),
-                                    )
-                                    .toList(),
-                              ),
+                                    ),
+                                  )
+                                  .toList(),
                             ),
-                          ],
-                        );
-                      },
-                    ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ),
                 if (user.currentLevel > 1 && level > 1)
