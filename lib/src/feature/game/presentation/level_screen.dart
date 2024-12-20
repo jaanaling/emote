@@ -7,6 +7,7 @@ import 'package:emote_this/src/feature/game/model/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
@@ -166,6 +167,7 @@ class _LevelScreenState extends State<LevelScreen> {
           ),
           Expanded(
             child: Stack(
+              alignment: Alignment.center,
               children: [
                 SizedBox(
                   height: (MediaQuery.of(context).size.width * 0.12 + 6) * 6,
@@ -176,6 +178,7 @@ class _LevelScreenState extends State<LevelScreen> {
                     physics: const NeverScrollableScrollPhysics(),
                     separatorBuilder: (context, index) => const Gap(6),
                     itemBuilder: (context, difficultyIndex) {
+                      print(user!.currentLevel);
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -210,30 +213,29 @@ class _LevelScreenState extends State<LevelScreen> {
                   ),
                 ),
                 if (user.currentLevel > 1 && level > 1)
-                      Positioned(
-                    top: 0,
+                  Positioned(
                     left: 0,
-                    bottom: 0,
                     child: IconButton(
                         onPressed: () {
                           setState(() {
                             level--;
                           });
                         },
-                        icon: Icon(CupertinoIcons.backward_end_fill)),
+                        icon: Transform(
+                            alignment: Alignment.center,
+                            transform: Matrix4.identity()..scale(-1.0, 1.0),
+                            child: AppIcon(asset: 'assets/images/chevron.svg'))),
                   ),
-                if (user.currentLevel > 1 && level < 3)
+                if (user.currentLevel > level && level < 3)
                   Positioned(
-                    top: 0,
                     right: 0,
-                    bottom: 0,
                     child: IconButton(
                         onPressed: () {
                           setState(() {
                             level++;
                           });
                         },
-                        icon: Icon(CupertinoIcons.forward_end_fill)),
+                        icon: AppIcon(asset: 'assets/images/chevron.svg')),
                   )
               ],
             ),
@@ -262,11 +264,12 @@ class _LevelScreenState extends State<LevelScreen> {
         onTap: () {
           context.read<GameBloc>().currentAttempts = 0;
           isUse
-            ? null
-            : context.push(
-                '${RouteValue.home.path}/${RouteValue.level.path}/${RouteValue.quiz.path}',
-                extra: challenge.id,
-              );},
+              ? null
+              : context.push(
+                  '${RouteValue.home.path}/${RouteValue.level.path}/${RouteValue.quiz.path}',
+                  extra: challenge.id,
+                );
+        },
         splashColor: gradientColors.first,
         borderRadius: BorderRadius.circular(32),
         child: Stack(

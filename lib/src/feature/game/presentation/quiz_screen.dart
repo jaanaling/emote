@@ -110,116 +110,125 @@ class _QuizScreenState extends State<QuizScreen>
 
                 return Stack(
                   children: [
-                    SafeArea(
-                      bottom: false,
-                      child: Center(
-                        child: Column(
-                          children: [
-                            const Gap(73),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    height: 128,
-                                    width: double.infinity,
-                                    decoration: ShapeDecoration(
-                                      color: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        side: const BorderSide(
-                                            width: 1, color: Color(0xFFFF489F)),
-                                        borderRadius: BorderRadius.circular(18),
-                                      ),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        riddle.emojis,
-                                        style: const TextStyle(fontSize: 60),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    left: 10,
-                                    top: 5,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        AppIcon(
-                                          asset: IconProvider.heart
-                                              .buildImageUrl(),
-                                          width: 22.17,
-                                          height: 22.17,
+                    SingleChildScrollView(
+                      padding: EdgeInsets.only(bottom: 89 + keyHeight*5),
+                      child: SafeArea(
+                        bottom: false,
+                        child: Center(
+                          child: Column(
+                            children: [
+                              const Gap(73),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      height: 128,
+                                      width: double.infinity,
+                                      decoration: ShapeDecoration(
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          side: const BorderSide(
+                                              width: 1, color: Color(0xFFFF489F)),
+                                          borderRadius: BorderRadius.circular(18),
                                         ),
-                                        Container(
-                                          width: 35,
-                                          decoration: ShapeDecoration(
-                                            color: Colors.white,
-                                            shape: RoundedRectangleBorder(
-                                              side: BorderSide(
-                                                  width: 1,
-                                                  color: Color(0xFFE2E2E2)),
-                                              borderRadius:
-                                                  BorderRadius.circular(18),
-                                            ),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          riddle.emojis,
+                                          style: const TextStyle(fontSize: 60),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: 10,
+                                      top: 5,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          AppIcon(
+                                            asset: IconProvider.heart
+                                                .buildImageUrl(),
+                                            width: 22.17,
+                                            height: 22.17,
                                           ),
-                                          child: Center(
-                                            child: Text(
-                                              (3 -
-                                                      context
-                                                          .read<GameBloc>()
-                                                          .currentAttempts)
-                                                  .toString(),
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10,
-                                                fontFamily: 'Baloo Bhaijaan',
-                                                fontWeight: FontWeight.w400,
+                                          Container(
+                                            width: 35,
+                                            decoration: ShapeDecoration(
+                                              color: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                side: BorderSide(
+                                                    width: 1,
+                                                    color: Color(0xFFE2E2E2)),
+                                                borderRadius:
+                                                    BorderRadius.circular(18),
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                (3 -
+                                                        context
+                                                            .read<GameBloc>()
+                                                            .currentAttempts)
+                                                    .toString(),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 10,
+                                                  fontFamily: 'Baloo Bhaijaan',
+                                                  fontWeight: FontWeight.w400,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: screenHeight * 0.05),
-                            AnimatedBuilder(
-                              animation: _shakeController,
-                              builder: (context, child) {
-                                return Transform.translate(
-                                  offset: Offset(
-                                    _shakeAnimation.value *
-                                        (_shakeController.isAnimating ? 1 : 0),
-                                    0,
-                                  ),
-                                  child: child,
-                                );
-                              },
-                              child: _buildAnswerLines(
-                                  words, answer, cellWidth, cellHeight),
-                            ),
-                            const Spacer(),
-                            DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: Color(0xFFd1d5d8),
-                              ),
-                              child: SafeArea(
-                                top: false,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 16),
-                                  child: _buildKeyboard(answerLength, answer,
-                                      keyWidth, keyHeight, state.user!.hints),
+                                        ],
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
-                            ),
-                          ],
+                              SizedBox(height: screenHeight * 0.05),
+                              AnimatedBuilder(
+                                animation: _shakeController,
+                                builder: (context, child) {
+                                  return Transform.translate(
+                                    offset: Offset(
+                                      _shakeAnimation.value *
+                                          (_shakeController.isAnimating ? 1 : 0),
+                                      0,
+                                    ),
+                                    child: child,
+                                  );
+                                },
+                                child: _buildAnswerLines(
+                                    words, answer, cellWidth, cellHeight),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
+                    Positioned(
+                      bottom: 0,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Color(0xFFd1d5d8),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SafeArea(
+                            top: false,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 16),
+                              child: _buildKeyboard(answerLength, answer,
+                                  keyWidth, keyHeight, state.user!.hints),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
                     AppBarWidget(
                       tipsCount: state.user!.hints,
                       coinsCount: state.user!.coins,

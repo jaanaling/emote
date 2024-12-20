@@ -248,6 +248,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     // Фильтруем загадки по текущему уровню
     final levelRiddles =
         _riddles.where((r) => r.level == currentLevel).toList();
+    print(_riddles);
     if (levelRiddles.isEmpty) return user;
 
     final totalPointsInLevel =
@@ -266,11 +267,16 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         .where((r) => r.level == currentLevel)
         .fold<int>(0, (sum, r) => sum + r.points);
 
+    print(userPointsInLevel);
+    print(totalPointsInLevel);
+
     if (totalPointsInLevel > 0) {
       final requiredPoints = (totalPointsInLevel * 0.4).floor();
+      print(requiredPoints);
       if (userPointsInLevel >= requiredPoints) {
-        // Повышаем уровень
-        return user.copyWith(currentLevel: user.currentLevel + 1);
+        final newUser = user.copyWith(currentLevel: user.currentLevel + 1);
+        userRepository.update(newUser);
+        return newUser;
       }
     }
 
@@ -414,6 +420,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       await userRepository.update(_user!);
 
       _checkAchievements();
+      _user = _checkLevelProgress(_user!);
 
       emit(GameLoaded(
         riddles: _riddles,
