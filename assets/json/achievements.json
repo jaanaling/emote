@@ -122,7 +122,7 @@
   {
     "id": 16,
     "title": "Persistent",
-    "description": "Fail a riddle 3 times and then succeed",
+    "description": "Fail a riddle 2 times and then succeed",
     "difficalty": 1,
     "coin_reward": 10,
     "unlocked": false
