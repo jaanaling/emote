@@ -96,6 +96,7 @@ class _PuzzleScreenState extends State<HomeScreen> {
                         color: Colors.transparent,
                         child: ElevatedButton(
                           onPressed: () {
+                            context.read<GameBloc>().currentAttempts = 0;
                             context.push(
                                 '${RouteValue.home.path}/${RouteValue.level.path}',
                                 extra: state.user!.currentLevel);
@@ -124,7 +125,13 @@ class _PuzzleScreenState extends State<HomeScreen> {
                       Material(
                         color: Colors.transparent,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.read<GameBloc>().currentAttempts = 0;
+                            context.push(
+                                "${RouteValue.home.path}/${RouteValue.dayli.path}",
+                                extra: int.parse(
+                                    "200${Random().nextInt(11) + 1}"));
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF8348FF),
                               elevation: 0,
@@ -150,9 +157,11 @@ class _PuzzleScreenState extends State<HomeScreen> {
                         color: Colors.transparent,
                         child: ElevatedButton(
                           onPressed: () {
+                            context.read<GameBloc>().currentAttempts = 0;
                             context.push(
                                 "${RouteValue.home.path}/${RouteValue.dayli.path}",
-                                extra: 1);
+                                extra:
+                                    int.parse("100${DateTime.now().weekday}"));
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFF48A0),

@@ -261,12 +261,14 @@ class _LevelScreenState extends State<LevelScreen> {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () => isUse
+        onTap: () {
+          context.read<GameBloc>().currentAttempts = 0;
+          isUse
             ? null
             : context.push(
                 '${RouteValue.home.path}/${RouteValue.level.path}/${RouteValue.quiz.path}',
                 extra: challenge.id,
-              ),
+              );},
         splashColor: gradientColors.first,
         borderRadius: BorderRadius.circular(32),
         child: Stack(

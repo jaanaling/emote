@@ -59,7 +59,6 @@
     "points": 1,
     "coins": 1
   },
-
   {
     "id": 7,
     "level": 1,
@@ -110,7 +109,6 @@
     "points": 2,
     "coins": 2
   },
-
   {
     "id": 12,
     "level": 1,
@@ -151,7 +149,6 @@
     "points": 3,
     "coins": 3
   },
-
   {
     "id": 16,
     "level": 1,
@@ -182,7 +179,6 @@
     "points": 4,
     "coins": 4
   },
-
   {
     "id": 19,
     "level": 1,
@@ -203,7 +199,6 @@
     "points": 5,
     "coins": 5
   },
-
   {
     "id": 21,
     "level": 1,
@@ -214,7 +209,6 @@
     "points": 6,
     "coins": 6
   },
-
   {
     "id": 22,
     "level": 2,
@@ -275,7 +269,6 @@
     "points": 2,
     "coins": 1
   },
-
   {
     "id": 28,
     "level": 2,
@@ -326,7 +319,6 @@
     "points": 4,
     "coins": 2
   },
-
   {
     "id": 33,
     "level": 2,
@@ -367,7 +359,6 @@
     "points": 6,
     "coins": 3
   },
-
   {
     "id": 37,
     "level": 2,
@@ -398,7 +389,6 @@
     "points": 8,
     "coins": 4
   },
-
   {
     "id": 40,
     "level": 2,
@@ -419,7 +409,6 @@
     "points": 10,
     "coins": 5
   },
-
   {
     "id": 42,
     "level": 2,
@@ -430,7 +419,6 @@
     "points": 12,
     "coins": 6
   },
-
   {
     "id": 43,
     "level": 3,
@@ -491,7 +479,6 @@
     "points": 3,
     "coins": 1
   },
-
   {
     "id": 49,
     "level": 3,
@@ -542,7 +529,6 @@
     "points": 6,
     "coins": 2
   },
-
   {
     "id": 54,
     "level": 3,
@@ -583,7 +569,6 @@
     "points": 9,
     "coins": 3
   },
-
   {
     "id": 58,
     "level": 3,
@@ -614,7 +599,6 @@
     "points": 12,
     "coins": 4
   },
-
   {
     "id": 61,
     "level": 3,
@@ -635,7 +619,6 @@
     "points": 15,
     "coins": 5
   },
-
   {
     "id": 63,
     "level": 3,
@@ -645,6 +628,195 @@
     "answer": "Jimi Hendrix",
     "points": 18,
     "coins": 6
+  },
+  {
+    "id": 1001,
+    "level": 7,
+    "complexity": 2,
+    "category": "Animals & Nature",
+    "emojis": "🐼🎋",
+    "answer": "Panda",
+    "points": 6,
+    "coins": 2
+  },
+  {
+    "id": 1002,
+    "level": 7,
+    "complexity": 3,
+    "category": "Food & Drinks",
+    "emojis": "🍕🧀",
+    "answer": "Pizza",
+    "points": 9,
+    "coins": 3
+  },
+  {
+    "id": 1003,
+    "level": 7,
+    "complexity": 1,
+    "category": "Movies & TV",
+    "emojis": "🦸‍♂️🕷️",
+    "answer": "Spider-Man",
+    "points": 3,
+    "coins": 1
+  },
+  {
+    "id": 1004,
+    "level": 7,
+    "complexity": 2,
+    "category": "Fairy tales & literature",
+    "emojis": "👸👠",
+    "answer": "Cinderella",
+    "points": 6,
+    "coins": 2
+  },
+  {
+    "id": 1005,
+    "level": 7,
+    "complexity": 3,
+    "category": "Cities & Countries",
+    "emojis": "🗽🇺🇸",
+    "answer": "New York",
+    "points": 9,
+    "coins": 3
+  },
+  {
+    "id": 1006,
+    "level": 7,
+    "complexity": 2,
+    "category": "Songs & Musicians",
+    "emojis": "🎤👩",
+    "answer": "Adele",
+    "points": 6,
+    "coins": 2
+  },
+  {
+    "id": 1007,
+    "level": 7,
+    "complexity": 3,
+    "category": "Movies & TV",
+    "emojis": "👨🔬🧪",
+    "answer": "Breaking Bad",
+    "points": 9,
+    "coins": 3
+  },
+  {
+    "id": 2001,
+    "level": 7,
+    "complexity": 4,
+    "category": "Animals & Nature",
+    "emojis": "🐯🏞️",
+    "answer": "Tiger",
+    "points": 12,
+    "coins": 4
+  },
+  {
+    "id": 2002,
+    "level": 7,
+    "complexity": 5,
+    "category": "Cities & Countries",
+    "emojis": "🌉🇺🇸",
+    "answer": "San Francisco",
+    "points": 15,
+    "coins": 5
+  },
+  {
+    "id": 2003,
+    "level": 7,
+    "complexity": 3,
+    "category": "Fairy tales & literature",
+    "emojis": "🧝‍♂️💍",
+    "answer": "The Lord of the Rings",
+    "points": 9,
+    "coins": 3
+  },
+  {
+    "id": 2004,
+    "level": 7,
+    "complexity": 4,
+    "category": "Food & Drinks",
+    "emojis": "🍔🍟",
+    "answer": "Burger and Fries",
+    "points": 12,
+    "coins": 4
+  },
+  {
+    "id": 2005,
+    "level": 7,
+    "complexity": 5,
+    "category": "Movies & TV",
+    "emojis": "🦖🗻",
+    "answer": "Jurassic Park",
+    "points": 15,
+    "coins": 5
+  },
+  {
+    "id": 2006,
+    "level": 7,
+    "complexity": 3,
+    "category": "Songs & Musicians",
+    "emojis": "🎸🎶",
+    "answer": "Eric Clapton",
+    "points": 9,
+    "coins": 3
+  },
+  {
+    "id": 2007,
+    "level": 7,
+    "complexity": 4,
+    "category": "Cities & Countries",
+    "emojis": "🎡🇬🇧",
+    "answer": "London",
+    "points": 12,
+    "coins": 4
+  },
+  {
+    "id": 2008,
+    "level": 7,
+    "complexity": 2,
+    "category": "Animals & Nature",
+    "emojis": "🐦🌈",
+    "answer": "Parrot",
+    "points": 6,
+    "coins": 2
+  },
+  {
+    "id": 2009,
+    "level":7,
+    "complexity": 6,
+    "category": "Fairy tales & literature",
+    "emojis": "🧙‍♂️🧹",
+    "answer": "Harry Potter",
+    "points": 18,
+    "coins": 6
+  },
+  {
+    "id": 20010,
+    "level": 7,
+    "complexity": 4,
+    "category": "Food & Drinks",
+    "emojis": "🍣🐟",
+    "answer": "Sushi",
+    "points": 12,
+    "coins": 4
+  },
+  {
+    "id": 20011,
+    "level": 7,
+    "complexity": 5,
+    "category": "Songs & Musicians",
+    "emojis": "👨🎤🕶️",
+    "answer": "Stevie Wonder",
+    "points": 15,
+    "coins": 5
+  },
+  {
+    "id": 20012,
+    "level": 7,
+    "complexity": 4,
+    "category": "Movies & TV",
+    "emojis": "🚀🪐",
+    "answer": "Interstellar",
+    "points": 12,
+    "coins": 4
   }
-  ]
-  
+]

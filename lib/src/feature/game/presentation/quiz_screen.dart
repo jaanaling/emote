@@ -165,9 +165,10 @@ class _QuizScreenState extends State<QuizScreen>
                                           ),
                                           child: Center(
                                             child: Text(
-                                              context
-                                                  .read<GameBloc>()
-                                                  .currentAttempts
+                                              (3 -
+                                                      context
+                                                          .read<GameBloc>()
+                                                          .currentAttempts)
                                                   .toString(),
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
