@@ -8,11 +8,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../core/utils/app_icon.dart';
 
 class CreateScreen extends StatelessWidget {
-  const CreateScreen({super.key});
+  final GlobalKey shareButtonKey = GlobalKey();
+  CreateScreen({super.key});
+
+  Future<void> share(
+      GlobalKey shareButtonKey, String quiz, String answer) async {
+    final shareText = '''
+:question: **Emoji Riddle for You:**
+$quiz
+Try to guess what it means! :thinking_face:
+Answer (click to reveal): ||$answer||
+  ''';
+    await Share.share(
+      shareText,
+      sharePositionOrigin: shareButtonRect(shareButtonKey),
+    );
+  }
+
+  Rect? shareButtonRect(GlobalKey shareButtonKey) {
+    RenderBox? renderBox =
+        shareButtonKey.currentContext!.findRenderObject() as RenderBox?;
+    if (renderBox == null) return null;
+    Size size = renderBox.size;
+    Offset position = renderBox.localToGlobal(Offset.zero);
+    return Rect.fromCenter(
+      center: position + Offset(size.width / 2, size.height / 2),
+      width: size.width,
+      height: size.height,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,63 +110,63 @@ class CreateScreen extends StatelessWidget {
       },
     );
   }
-}
 
-void showBuyHintAlertDialog(BuildContext context, String emoji, String word) {
-  showDialog(
-    context: context,
-    barrierDismissible: true,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        contentPadding: EdgeInsets.zero,
-        backgroundColor: const Color(0xFF2C00AB),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(38),
-        ),
-        content: Padding(
-          padding: const EdgeInsets.only(bottom: 3, right: 3),
-          child: Container(
-            width: 256,
-            decoration: BoxDecoration(
-              color: const Color(0xFFFF48A0),
-              borderRadius: BorderRadius.circular(35),
-              border: Border.all(color: const Color(0xFF8348FF), width: 5),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Gap(11),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 16),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(35),
-                        onTap: () {
-                          context.pop();
-                        },
-                        child: Ink(
-                          width: 29,
-                          height: 29,
-                          decoration: const ShapeDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color(0xFFe5e5e5), Colors.white],
-                            ),
-                            shape: OvalBorder(),
-                          ),
-                          child: Center(
-                            child: Ink(
-                              width: 21,
-                              height: 29,
-                              decoration: const ShapeDecoration(
-                                shape: OvalBorder(),
-                                color: Colors.white,
+  void showBuyHintAlertDialog(BuildContext context, String emoji, String word) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          backgroundColor: const Color(0xFF2C00AB),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(38),
+          ),
+          content: Padding(
+            padding: const EdgeInsets.only(bottom: 3, right: 3),
+            child: Container(
+              width: 256,
+              decoration: BoxDecoration(
+                color: const Color(0xFFFF48A0),
+                borderRadius: BorderRadius.circular(35),
+                border: Border.all(color: const Color(0xFF8348FF), width: 5),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Gap(11),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(35),
+                          onTap: () {
+                            context.pop();
+                          },
+                          child: Ink(
+                            width: 29,
+                            height: 29,
+                            decoration: const ShapeDecoration(
+                              gradient: LinearGradient(
+                                colors: [Color(0xFFe5e5e5), Colors.white],
                               ),
-                              child: const Center(
-                                child: AppIcon(
-                                  asset: 'assets/images/close.svg',
+                              shape: OvalBorder(),
+                            ),
+                            child: Center(
+                              child: Ink(
+                                width: 21,
+                                height: 29,
+                                decoration: const ShapeDecoration(
+                                  shape: OvalBorder(),
+                                  color: Colors.white,
+                                ),
+                                child: const Center(
+                                  child: AppIcon(
+                                    asset: 'assets/images/close.svg',
+                                  ),
                                 ),
                               ),
                             ),
@@ -146,75 +175,78 @@ void showBuyHintAlertDialog(BuildContext context, String emoji, String word) {
                       ),
                     ),
                   ),
-                ),
-                const Text(
-                  "YOUR RIDDLE",
-                  style: TextStyle(
-                    color: Color(0xFFF7D931),
-                    fontSize: 36,
-                    fontFamily: 'Baloo Bhaijaan',
-                  ),
-                ),
-                Gap(17),
-                DecoratedBox(
-                  decoration: BoxDecoration(color: Color(0xFF6ce5e8)),
-                  child: SizedBox(
-                      width: 202,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          emoji,
-                          style: TextStyle(fontSize: 60),
-                        ),
-                      )),
-                ),
-                SizedBox(
-                  width: 202,
-                  child: Text(
-                    'Word: $word',
-                    textAlign: TextAlign.center,
+                  const Text(
+                    "YOUR RIDDLE",
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
+                      color: Color(0xFFF7D931),
+                      fontSize: 36,
                       fontFamily: 'Baloo Bhaijaan',
-                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                ),
-                const Gap(38),
-                Material(
-                  color: Colors.transparent,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      disabledBackgroundColor: Colors.grey[600],
-                      backgroundColor: const Color(0xFF8348FF),
-                      elevation: 0,
-                      padding: EdgeInsets.zero,
-                    ),
+                  Gap(17),
+                  DecoratedBox(
+                    decoration: BoxDecoration(color: Color(0xFF6ce5e8)),
                     child: SizedBox(
-                      width: 147,
-                      child: Center(
-                        child: Text(
-                          'SHARE',
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontFamily: 'Baloo Bhaijaan',
-                            color: Colors.white,
+                        width: 202,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            emoji,
+                            style: TextStyle(fontSize: 60),
+                          ),
+                        )),
+                  ),
+                  SizedBox(
+                    width: 202,
+                    child: Text(
+                      'Word: $word',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontFamily: 'Baloo Bhaijaan',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  const Gap(38),
+                  Material(
+                    color: Colors.transparent,
+                    child: ElevatedButton(
+                      key: shareButtonKey,
+                      onPressed: () {
+                        share(shareButtonKey, emoji, word);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        disabledBackgroundColor: Colors.grey[600],
+                        backgroundColor: const Color(0xFF8348FF),
+                        elevation: 0,
+                        padding: EdgeInsets.zero,
+                      ),
+                      child: SizedBox(
+                        width: 147,
+                        child: Center(
+                          child: Text(
+                            'SHARE',
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontFamily: 'Baloo Bhaijaan',
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Gap(20)
-              ],
+                  Gap(20)
+                ],
+              ),
             ),
           ),
-        ),
-      );
-    },
-  );
+        );
+      },
+    );
+  }
 }
 
 Widget _textField(
