@@ -1,3 +1,9 @@
+import 'package:emote_this/src/core/dependency_injection.dart';
+import 'package:emote_this/src/feature/game/bloc/game_bloc.dart';
+import 'package:emote_this/src/feature/game/repository/user_repository.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../core/utils/json_loader.dart';
 import '../model/achievement.dart';
 
@@ -56,5 +62,16 @@ class AchievementRepository {
       achievements,
       (item) => item.toMap(),
     );
+  }
+}
+
+Future<void> solveAchievement(
+    GameLoaded state, BuildContext context, int index) async {
+  if (!state.achievements[index].unlocked) {
+    await locator<AchievementRepository>()
+        .update(state.achievements[index].copyWith(unlocked: true));
+    await locator<UserRepository>().update(state.user!.copyWith(
+        coins: state.user!.coins + state.achievements[index].coinReward));
+    context.read<GameBloc>().add(LoadGameData());
   }
 }

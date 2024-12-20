@@ -79,7 +79,7 @@ class AchievementsScreen extends StatelessWidget {
           width: 130.0,
           height: 160,
           decoration: ShapeDecoration(
-            color: user.obtainedAchievements.contains(achievement.id)
+            color: user.obtainedAchievements.contains(achievement.id) || achievement.unlocked
                 ? Color(0xFFB3FFA6)
                 : Color(0xFFFFA6A6),
             shape: RoundedRectangleBorder(

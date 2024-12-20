@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 
 import '../../../../ui_kit/app_bar.dart';
+import '../repository/achievement_repository.dart';
 
 class QuizScreen extends StatefulWidget {
   final int puzzleId;
@@ -36,6 +37,8 @@ class _QuizScreenState extends State<QuizScreen>
     ['HINT', 'CONFIRM'],
   ];
 
+  late final DateTime date;
+
   @override
   void initState() {
     super.initState();
@@ -46,6 +49,7 @@ class _QuizScreenState extends State<QuizScreen>
     _shakeAnimation = Tween<double>(begin: 0, end: 10)
         .chain(CurveTween(curve: Curves.elasticIn))
         .animate(_shakeController);
+    date = DateTime.now();
   }
 
   @override
@@ -88,7 +92,7 @@ class _QuizScreenState extends State<QuizScreen>
             autofocus: true,
             onKey: (FocusNode node, RawKeyEvent event) {
               if (event is RawKeyDownEvent) {
-                handleKeyInput(event.logicalKey, answerLength, answer);
+                handleKeyInput(event.logicalKey, answerLength, answer, state, context);
               }
               return KeyEventResult.handled;
             },
@@ -222,7 +226,7 @@ class _QuizScreenState extends State<QuizScreen>
                             child: Padding(
                               padding: const EdgeInsets.only(top: 16),
                               child: _buildKeyboard(answerLength, answer,
-                                  keyWidth, keyHeight, state.user!.hints),
+                                  keyWidth, keyHeight, state.user!.hints, state, context),
                             ),
                           ),
                         ),
@@ -318,7 +322,7 @@ class _QuizScreenState extends State<QuizScreen>
   }
 
   Widget _buildKeyboard(int answerLength, List<String> answer, double keyWidth,
-      double keyHeight, int hintsCount) {
+      double keyHeight, int hintsCount, GameLoaded state, BuildContext context) {
     bool allFilled = true;
     for (int i = 0; i < answerLength; i++) {
       if (answer[i] == ' ') continue;
@@ -349,7 +353,7 @@ class _QuizScreenState extends State<QuizScreen>
                   onPressed: ((letter == 'CONFIRM' && !allFilled) ||
                           (letter == 'HINT' && hintsCount == 0))
                       ? null
-                      : () => handleLetterInput(letter, answerLength, answer),
+                      : () => handleLetterInput(letter, answerLength, answer, state, context),
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
@@ -387,7 +391,7 @@ class _QuizScreenState extends State<QuizScreen>
     }
   }
 
-  void handleLetterInput(String letter, int answerLength, List<String> answer) {
+  void handleLetterInput(String letter, int answerLength, List<String> answer, GameLoaded state, BuildContext context) {
     setState(() {
       if (letter == 'HINT') {
         revealHint(answer);
@@ -397,7 +401,7 @@ class _QuizScreenState extends State<QuizScreen>
       if (letter == '⌫') {
         handleBackspace(answer);
       } else if (letter == 'CONFIRM') {
-        handleConfirm(answerLength, answer);
+        handleConfirm(answerLength, answer, state, context);
       } else {
         handleCharacterInput(letter, answer);
       }
@@ -431,7 +435,7 @@ class _QuizScreenState extends State<QuizScreen>
     }
   }
 
-  Future<void> handleConfirm(int answerLength, List<String> answer) async {
+  Future<void> handleConfirm(int answerLength, List<String> answer, GameLoaded state, BuildContext context) async {
     bool allFilled = true;
     final canVibrate = await Haptics.canVibrate();
     for (int i = 0; i < answerLength; i++) {
@@ -468,6 +472,16 @@ class _QuizScreenState extends State<QuizScreen>
             widget.puzzleId, userInput.map((e) => e ?? "").toList()));
         return;
       } else {
+        final DateTime solvedDate = DateTime.now();
+        if(solvedDate.difference(date)<=const Duration(seconds: 10)){
+          await solveAchievement(state, context, 4);
+        }
+        if(context.read<GameBloc>().currentAttempts==2){
+          await solveAchievement(state, context, 15);
+        }
+        if(context.read<GameBloc>().currentAttempts==0){
+          await solveAchievement(state, context, 19);
+        }
         if (canVibrate) {
           await Haptics.vibrate(HapticsType.success);
         }
@@ -513,12 +527,12 @@ class _QuizScreenState extends State<QuizScreen>
   }
 
   void handleKeyInput(
-      LogicalKeyboardKey key, int answerLength, List<String> answer) {
+      LogicalKeyboardKey key, int answerLength, List<String> answer, GameLoaded state, BuildContext context) {
     final keyLabel = key.keyLabel.toUpperCase();
     if (keyLabel == 'BACKSPACE') {
-      handleLetterInput('⌫', answerLength, answer);
+      handleLetterInput('⌫', answerLength, answer, state, context);
     } else if (keyLabel.length == 1 && keyLabel.contains(RegExp(r'[A-Z]'))) {
-      handleLetterInput(keyLabel, answerLength, answer);
+      handleLetterInput(keyLabel, answerLength, answer, state, context);
     }
   }
 

@@ -1,6 +1,9 @@
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
+import 'package:emote_this/src/core/dependency_injection.dart';
 import 'package:emote_this/src/core/utils/size_utils.dart';
 import 'package:emote_this/src/feature/game/bloc/game_bloc.dart';
+import 'package:emote_this/src/feature/game/repository/achievement_repository.dart';
+import 'package:emote_this/src/feature/game/repository/user_repository.dart';
 import 'package:emote_this/ui_kit/app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -21,7 +24,7 @@ class CreateScreen extends StatelessWidget {
     final shareText = '''
 :question: **Emoji Riddle for You:**
 $quiz
-Try to guess what it means! :thinking_face:
+Try to guess what it means!
 Answer (click to reveal): ||$answer||
   ''';
     await Share.share(
@@ -65,9 +68,14 @@ Answer (click to reveal): ||$answer||
                       Material(
                         color: Colors.transparent,
                         child: ElevatedButton(
-                          onPressed: () {
-                            showBuyHintAlertDialog(context,
-                                emojiController.text, textController.text);
+                          onPressed: () async {
+                            showBuyHintAlertDialog(
+                                context,
+                                emojiController.text,
+                                textController.text, () async {
+                              await solveAchievement(state, context, 18);
+                            });
+                            await solveAchievement(state, context, 17);
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF8348FF),
@@ -111,7 +119,8 @@ Answer (click to reveal): ||$answer||
     );
   }
 
-  void showBuyHintAlertDialog(BuildContext context, String emoji, String word) {
+  void showBuyHintAlertDialog(BuildContext context, String emoji, String word,
+      void Function() onshare) {
     showDialog(
       context: context,
       barrierDismissible: true,
@@ -216,6 +225,7 @@ Answer (click to reveal): ||$answer||
                       key: shareButtonKey,
                       onPressed: () {
                         share(shareButtonKey, emoji, word);
+                        onshare();
                       },
                       style: ElevatedButton.styleFrom(
                         disabledBackgroundColor: Colors.grey[600],
