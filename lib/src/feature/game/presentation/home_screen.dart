@@ -21,10 +21,31 @@ class HomeScreen extends StatefulWidget {
 class _PuzzleScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final int score = 1000;
     return BlocBuilder<GameBloc, GameState>(
       builder: (context, state) {
         if (state is GameLoaded) {
+          final score = state.user!.points;
+          final allScore = state.riddles.fold<int>(
+            0,
+            (previousValue, element) => previousValue + element.points,
+          );
+          final solvedRiddles = state.user!.solvedRiddles;
+          final categoryCounts = <String, int>{};
+          for (final riddleId in solvedRiddles) {
+            final riddle = state.riddles.firstWhere((r) => r.id == riddleId);
+            categoryCounts[riddle.category] =
+                (categoryCounts[riddle.category] ?? 0) + 1;
+          }
+
+          String favoriteCategory = 'Unknown';
+          int maxCount = 0;
+          categoryCounts.forEach((category, count) {
+            if (count > maxCount) {
+              maxCount = count;
+              favoriteCategory = category;
+            }
+          });
+
           return Stack(
             alignment: Alignment.topCenter,
             children: [
@@ -36,8 +57,8 @@ class _PuzzleScreenState extends State<HomeScreen> {
                       Stack(
                         alignment: Alignment.center,
                         children: [
-                          const RoundedPieChart(
-                            value: 0.1,
+                          RoundedPieChart(
+                            value: (score / allScore),
                           ),
                           Text(
                             '$score\nSCORE',
@@ -58,11 +79,11 @@ class _PuzzleScreenState extends State<HomeScreen> {
                             border: Border.all(
                                 color: const Color(0xFFE2E2E2), width: 2),
                             borderRadius: BorderRadius.circular(22)),
-                        child: const Center(
+                        child: Center(
                           child: Padding(
                             padding: EdgeInsets.symmetric(vertical: 7),
                             child: Text(
-                              'Movies',
+                              favoriteCategory,
                               style: TextStyle(
                                 color: Color(0xFFFF48A0),
                               ),

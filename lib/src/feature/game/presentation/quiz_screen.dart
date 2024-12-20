@@ -367,7 +367,7 @@ class _QuizScreenState extends State<QuizScreen>
       bool isGreen = showColors[i] &&
           userInput[i]?.toLowerCase() == answer[i].toLowerCase();
       if (!isGreen) {
-        // Ставим правильный символ
+        context.read<GameBloc>().add(UseHint());
         userInput[i] = answer[i].toUpperCase();
         // Делаем сразу зелёной
         showColors[i] = true;
@@ -443,10 +443,6 @@ class _QuizScreenState extends State<QuizScreen>
         }
       }
 
-      context
-          .read<GameBloc>()
-          .add(SubmitRiddleAnswer(widget.puzzleId, userInput.join()));
-
       if (!isCorrect) {
         _shakeController.reset();
         _shakeController.forward();
@@ -454,8 +450,16 @@ class _QuizScreenState extends State<QuizScreen>
         if (canVibrate) {
           await Haptics.vibrate(HapticsType.error);
         }
+        final attempt = context.read<GameBloc>().currentAttempts + 1;
+        if (attempt >= 3) {
+          showResult(isCorrect, answer.join());
+        }
+        context.read<GameBloc>().add(SubmitRiddleAnswer(
+            widget.puzzleId, userInput.map((e) => e ?? "").toList()));
+        return;
       }
-
+      context.read<GameBloc>().add(SubmitRiddleAnswer(
+          widget.puzzleId, userInput.map((e) => e ?? "").toList()));
       showResult(isCorrect, answer.join());
     }
   }

@@ -13,11 +13,23 @@ import 'package:go_router/go_router.dart';
 import '../../../../ui_kit/app_bar.dart';
 import 'home_screen.dart';
 
-class LevelScreen extends StatelessWidget {
+class LevelScreen extends StatefulWidget {
   final int levelId;
 
   @override
   const LevelScreen({super.key, required this.levelId});
+
+  @override
+  State<LevelScreen> createState() => _LevelScreenState();
+}
+
+class _LevelScreenState extends State<LevelScreen> {
+  int level = 1;
+  @override
+  void initState() {
+    super.initState();
+    level = widget.levelId;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +45,7 @@ class LevelScreen extends StatelessWidget {
         }
         if (state is GameLoaded) {
           final riddles =
-              state.riddles.where((puzzle) => puzzle.level == levelId).toList();
+              state.riddles.where((puzzle) => puzzle.level == level).toList();
 
           final int allScore = riddles.fold<int>(
             0,
@@ -46,6 +58,7 @@ class LevelScreen extends StatelessWidget {
                 0,
                 (previousValue, element) => previousValue + element.points,
               );
+
           return Stack(
             children: [
               Padding(
@@ -55,7 +68,7 @@ class LevelScreen extends StatelessWidget {
                     children: [
                       Gap(21),
                       Text(
-                        'LEVEL 1',
+                        'LEVEL ${level}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.black,
@@ -72,7 +85,7 @@ class LevelScreen extends StatelessWidget {
                         alignment: Alignment.center,
                         children: [
                           RoundedPieChart(
-                            value: userScore/allScore,
+                            value: userScore / allScore,
                           ),
                           Text(
                             '$userScore\nSCORE',
@@ -114,7 +127,10 @@ class LevelScreen extends StatelessWidget {
 
   // Средняя секция с шариками и характеристиками уровней
   Widget _buildLevelContent(
-      BuildContext context, List<Riddle> riddles, User user) {
+    BuildContext context,
+    List<Riddle> riddles,
+    User user,
+  ) {
     return Center(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -149,47 +165,79 @@ class LevelScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: SizedBox(
-              height: (MediaQuery.of(context).size.width * 0.12 + 6) * 6,
-              child: ListView.separated(
-                reverse: true,
-                itemCount: 6,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                physics: const NeverScrollableScrollPhysics(),
-                separatorBuilder: (context, index) => const Gap(6),
-                itemBuilder: (context, difficultyIndex) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.12,
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        child: Row(
+            child: Stack(
+              children: [
+                Expanded(
+                  child: SizedBox(
+                    height: (MediaQuery.of(context).size.width * 0.12 + 6) * 6,
+                    child: ListView.separated(
+                      reverse: true,
+                      itemCount: 6,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      physics: const NeverScrollableScrollPhysics(),
+                      separatorBuilder: (context, index) => const Gap(6),
+                      itemBuilder: (context, difficultyIndex) {
+                        return Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: riddles
-                              .where(
-                                (e) =>
-                                    e.level == levelId &&
-                                    e.complexity == difficultyIndex + 1,
-                              )
-                              .map(
-                                (challenge) => Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 2),
-                                  child: buildBall(
-                                    challenge,
-                                    user,
-                                    context,
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.width * 0.12,
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: riddles
+                                    .where(
+                                      (e) =>
+                                          e.level == level &&
+                                          e.complexity == difficultyIndex + 1,
+                                    )
+                                    .map(
+                                      (challenge) => Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 2),
+                                        child: buildBall(
+                                          challenge,
+                                          user,
+                                          context,
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                if (user.currentLevel > 1 && level > 1)
+                      Positioned(
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            level--;
+                          });
+                        },
+                        icon: Icon(CupertinoIcons.backward_end_fill)),
+                  ),
+                if (user.currentLevel > 1 && level < 3)
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            level++;
+                          });
+                        },
+                        icon: Icon(CupertinoIcons.forward_end_fill)),
+                  )
+              ],
             ),
           ),
         ],
@@ -199,21 +247,26 @@ class LevelScreen extends StatelessWidget {
 
   Widget buildBall(Riddle challenge, User user, BuildContext context) {
     List<Color> gradientColors = [];
+    bool isUse = false;
     if (user.solvedRiddles.contains(challenge.id)) {
-      gradientColors = [Color(0xFFFFC600), Color(0xFFFF9900)];
+      gradientColors = [Color(0xFF60FF00), Color(0xFF397808)];
+      isUse = true;
     } else if (user.failedRiddles.contains(challenge.id)) {
       gradientColors = [Color(0xFFFF002D), Color(0xFF78080E)];
+      isUse = true;
     } else {
-      gradientColors = [Color(0xFF60FF00), Color(0xFF397808)];
+      gradientColors = [Color(0xFFFFC600), Color(0xFFFF9900)];
     }
 
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () => context.push(
-          '${RouteValue.home.path}/${RouteValue.level.path}/${RouteValue.quiz.path}',
-          extra: challenge.id,
-        ),
+        onTap: () => isUse
+            ? null
+            : context.push(
+                '${RouteValue.home.path}/${RouteValue.level.path}/${RouteValue.quiz.path}',
+                extra: challenge.id,
+              ),
         splashColor: gradientColors.first,
         borderRadius: BorderRadius.circular(32),
         child: Stack(

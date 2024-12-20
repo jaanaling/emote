@@ -318,44 +318,31 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       switch (ach.id) {
         case 1: // First Steps: Solve your first riddle
           unlock = solvedIds.length >= 1;
-          break;
         case 2: // On a Roll: Solve 10 riddles
           unlock = solvedIds.length >= 10;
-          break;
         case 3: // Riddle Master: Solve 50 riddles
           unlock = solvedIds.length >= 50;
-          break;
         case 6: // Category Explorer: Solve at least one riddle from each category
           unlock = allCategories.every((cat) => (categoryCount[cat] ?? 0) >= 1);
-          break;
         case 7: // Food Lover: Solve 10 Food & Drinks riddles
           unlock = (categoryCount["Food & Drinks"] ?? 0) >= 10;
-          break;
         case 8: // Movie Buff: Solve 10 Movies & TV riddles
           unlock = (categoryCount["Movies & TV"] ?? 0) >= 10;
-          break;
         case 9: // Book Worm: Solve 10 Fairy tales & literature riddles
           unlock = (categoryCount["Fairy tales & literature"] ?? 0) >= 10;
-          break;
         case 10: // Melody Maker: Solve 10 Songs & Musicians riddles
           unlock = (categoryCount["Songs & Musicians"] ?? 0) >= 10;
-          break;
         case 11: // History Fan: Solve 10 Celebrities & historical figures riddles
           unlock =
               (categoryCount["Celebrities & historical figures"] ?? 0) >= 10;
-          break;
         case 12: // Globe Trotter: Solve 10 Cities & Countries riddles
           unlock = (categoryCount["Cities & Countries"] ?? 0) >= 10;
-          break;
         case 13: // Wildlife Enthusiast: Solve 10 Animals & Nature riddles
           unlock = (categoryCount["Animals & Nature"] ?? 0) >= 10;
-          break;
         case 14: // Wealthy: Accumulate 100 coins
           unlock = _user!.coins >= 100;
-          break;
         case 15: // Brainiac: Accumulate 1000 points
           unlock = _user!.points >= 1000;
-          break;
 
         default:
           break;
@@ -406,13 +393,17 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     }
 
     final riddle = _riddles.firstWhere((r) => r.id == event.riddleId);
-    if (riddle == null) {
-      emit(GameError('Riddle not found'));
-      return;
+
+    bool isCorrect = true;
+    for (int i = 0; i < riddle.answer.length; i++) {
+      if (riddle.answer[i] == ' ') continue;
+      if (event.answer[i].toLowerCase() != riddle.answer[i].toLowerCase()) {
+        isCorrect = false;
+        break;
+      }
     }
 
-    // Проверяем ответ
-    if (event.answer.toLowerCase() == riddle.answer.toLowerCase()) {
+    if (isCorrect) {
       // Загадка решена успешно
       _user = _user!.copyWith(
         points: _user!.points + riddle.points,
@@ -421,6 +412,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       );
       currentAttempts = 0; // Сбрасываем попытки
       await userRepository.update(_user!);
+
+      _checkAchievements();
 
       emit(GameLoaded(
         riddles: _riddles,
@@ -439,6 +432,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         currentAttempts = 0; // Сбрасываем попытки
         await userRepository.update(_user!);
 
+        _checkAchievements();
         emit(GameLoaded(
           riddles: _riddles,
           achievements: _achievements,

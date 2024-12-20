@@ -45,7 +45,7 @@ class UpdateUserDataPlaceholder extends GameEvent {
 
 class SubmitRiddleAnswer extends GameEvent {
   final int riddleId;
-  final String answer;
+  final List<String> answer;
 
   const SubmitRiddleAnswer(this.riddleId, this.answer);
 
