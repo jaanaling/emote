@@ -421,6 +421,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
       _checkAchievements();
       _user = _checkLevelProgress(_user!);
+      _achievements = await achievementRepository.load();
 
       emit(GameLoaded(
         riddles: _riddles,

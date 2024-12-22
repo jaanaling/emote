@@ -474,13 +474,13 @@ class _QuizScreenState extends State<QuizScreen>
       } else {
         final DateTime solvedDate = DateTime.now();
         if(solvedDate.difference(date)<=const Duration(seconds: 10)){
-          await solveAchievement(state, context, 4);
+          await solveAchievement(state, context, 4, false);
         }
         if(context.read<GameBloc>().currentAttempts==2){
-          await solveAchievement(state, context, 15);
+          await solveAchievement(state, context, 15, false);
         }
         if(context.read<GameBloc>().currentAttempts==0){
-          await solveAchievement(state, context, 19);
+          await solveAchievement(state, context, 19, false);
         }
         if (canVibrate) {
           await Haptics.vibrate(HapticsType.success);

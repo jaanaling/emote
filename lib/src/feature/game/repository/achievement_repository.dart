@@ -66,12 +66,14 @@ class AchievementRepository {
 }
 
 Future<void> solveAchievement(
-    GameLoaded state, BuildContext context, int index) async {
+    GameLoaded state, BuildContext context, int index, bool needUpdate) async {
   if (!state.achievements[index].unlocked) {
     await locator<AchievementRepository>()
         .update(state.achievements[index].copyWith(unlocked: true));
     await locator<UserRepository>().update(state.user!.copyWith(
         coins: state.user!.coins + state.achievements[index].coinReward));
-    context.read<GameBloc>().add(LoadGameData());
+    if(needUpdate){
+      context.read<GameBloc>().add(LoadGameData());
+    }
   }
 }

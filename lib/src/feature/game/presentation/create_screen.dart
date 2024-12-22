@@ -73,9 +73,9 @@ Answer (click to reveal): ||$answer||
                                 context,
                                 emojiController.text,
                                 textController.text, () async {
-                              await solveAchievement(state, context, 18);
+                              await solveAchievement(state, context, 18, true);
                             });
-                            await solveAchievement(state, context, 17);
+                            await solveAchievement(state, context, 17, true);
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF8348FF),
