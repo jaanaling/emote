@@ -1,5 +1,6 @@
 import 'package:emote_this/src/core/utils/app_icon.dart';
 import 'package:emote_this/src/core/utils/icon_provider.dart';
+import 'package:emote_this/src/core/utils/size_utils.dart';
 import 'package:emote_this/src/feature/game/bloc/game_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -101,16 +102,16 @@ class _QuizScreenState extends State<QuizScreen>
                 final screenWidth = constraints.maxWidth;
                 final screenHeight = constraints.maxHeight;
 
-                final cellWidth = screenWidth * 0.1;
-                final cellHeight = cellWidth * 1.5;
+                final cellWidth = screenWidth * (isIpad(context)?0.08:0.1) ;
+                final cellHeight = cellWidth *(isIpad(context)?1.35:1.5) ;
 
                 int maxRowLength = keyboardRows
                     .map((row) => row.length)
                     .reduce((a, b) => a > b ? a : b);
 
                 final keyWidth =
-                    (screenWidth - (maxRowLength * 4.0)) / (maxRowLength + 0.5);
-                final keyHeight = keyWidth * 1.4;
+                    (screenWidth - (maxRowLength * (isIpad(context)?3:4))) / (maxRowLength + 0.5);
+                final keyHeight = keyWidth * (isIpad(context)?1.1:1.4);
 
                 return Stack(
                   children: [
@@ -128,20 +129,20 @@ class _QuizScreenState extends State<QuizScreen>
                                 child: Stack(
                                   children: [
                                     Container(
-                                      height: 128,
+                                      height:isIpad(context)?250: 128,
                                       width: double.infinity,
                                       decoration: ShapeDecoration(
                                         color: Colors.white,
                                         shape: RoundedRectangleBorder(
-                                          side: const BorderSide(
-                                              width: 1, color: Color(0xFFFF489F)),
+                                          side: BorderSide(
+                                              width:isIpad(context)?2: 1, color: Color(0xFFFF489F)),
                                           borderRadius: BorderRadius.circular(18),
                                         ),
                                       ),
                                       child: Center(
                                         child: Text(
                                           riddle.emojis,
-                                          style: const TextStyle(fontSize: 60),
+                                          style: TextStyle(fontSize:isIpad(context)?120: 60),
                                         ),
                                       ),
                                     ),
@@ -154,8 +155,8 @@ class _QuizScreenState extends State<QuizScreen>
                                           AppIcon(
                                             asset: IconProvider.heart
                                                 .buildImageUrl(),
-                                            width: 22.17,
-                                            height: 22.17,
+                                            width:isIpad(context)?40: 22.17,
+                                            height: isIpad(context)?40: 22.17,
                                           ),
                                           Container(
                                             width: 35,
@@ -179,7 +180,7 @@ class _QuizScreenState extends State<QuizScreen>
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: Colors.black,
-                                                  fontSize: 10,
+                                                  fontSize:isIpad(context)?15: 10,
                                                   fontFamily: 'Baloo Bhaijaan',
                                                   fontWeight: FontWeight.w400,
                                                 ),
@@ -359,8 +360,8 @@ class _QuizScreenState extends State<QuizScreen>
                     child: Text(
                       letter,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 16,
+                      style: TextStyle(
+                          fontSize:isIpad(context)?26: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),

@@ -1,6 +1,7 @@
 import 'package:emote_this/routes/route_value.dart';
 import 'package:emote_this/src/core/utils/app_icon.dart';
 import 'package:emote_this/src/core/utils/icon_provider.dart';
+import 'package:emote_this/src/core/utils/size_utils.dart';
 import 'package:emote_this/src/feature/game/bloc/game_bloc.dart';
 import 'package:emote_this/src/feature/game/model/riddle.dart';
 import 'package:emote_this/src/feature/game/model/user.dart';
@@ -287,56 +288,58 @@ class _LevelScreenState extends State<LevelScreen> {
                 shape: OvalBorder(),
               ),
             ),
-            _getIconByCategory(challenge.category)
+            _getIconByCategory(challenge.category, context)
           ],
         ),
       ),
     );
   }
 
-  Widget _getIconByCategory(String category) {
+  Widget _getIconByCategory(String category, BuildContext context) {
+    final isIPad = isIpad(context);
+
     switch (category) {
       case 'Movies & TV':
         return AppIcon(
           asset: IconProvider.movie.buildImageUrl(),
-          width: 24,
-          height: 28,
+          width: isIPad?48: 24,
+          height: isIPad?56: 28,
         );
       case 'Fairy tales & literature':
         return AppIcon(
           asset: IconProvider.books.buildImageUrl(),
-          width: 30,
-          height: 26,
+          width: isIPad?60:30,
+          height: isIPad?52:26,
         );
       case 'Songs & Musicians':
         return AppIcon(
           asset: IconProvider.music.buildImageUrl(),
-          width: 27,
-          height: 25,
+          width: isIPad?54:27,
+          height: isIPad?50:25,
         );
       case 'Food & Drinks':
         return AppIcon(
           asset: IconProvider.food.buildImageUrl(),
-          width: 26,
-          height: 27,
+          width: isIPad?52:26,
+          height: isIPad?54:27,
         );
       case 'Animals & Nature':
         return AppIcon(
           asset: IconProvider.animals.buildImageUrl(),
-          width: 25.14,
-          height: 25.54,
+          width: isIPad?50.28:25.14,
+          height: isIPad?51.08:25.54,
         );
       case 'Celebrities & historical figures':
         return AppIcon(
           asset: IconProvider.stars.buildImageUrl(),
-          width: 13,
-          height: 30,
+          width: isIPad?26:13,
+          height: isIPad?60:30,
         );
     }
     return AppIcon(
       asset: IconProvider.country.buildImageUrl(),
-      width: 36,
-      height: 36,
+      width: isIPad?72:36,
+      height: isIPad?72:36,
     );
   }
 }

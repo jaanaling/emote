@@ -14,12 +14,14 @@ class AppBarWidget extends StatelessWidget {
   final int coinsCount;
   final String? title;
   final bool hasBackButton;
+  final bool hasChallengeIcon;
   const AppBarWidget({
     super.key,
     required this.tipsCount,
     required this.coinsCount,
     this.title,
     this.hasBackButton = false,
+    this.hasChallengeIcon = true
   });
 
   @override
@@ -63,6 +65,7 @@ class AppBarWidget extends StatelessWidget {
                         ),
                       ),
                     ),
+                  if(hasChallengeIcon)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 4),
                     child: Material(

@@ -61,21 +61,22 @@ class _PuzzleScreenState extends State<HomeScreen> {
                         children: [
                           RoundedPieChart(
                             value: (score / allScore),
+                            isHomeScreen: true,
                           ),
                           Text(
                             '$score\nSCORE',
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 26, height: 0.95),
+                            style: TextStyle(fontSize: isIpad(context)?36: 26, height: 0.95),
                           )
                         ],
                       ),
                       const Gap(75),
-                      const Text(
+                      Text(
                         'FAVORITE CATEGORY',
-                        style: TextStyle(fontSize: 30),
+                        style: TextStyle(fontSize:isIpad(context)?40: 30),
                       ),
                       Container(
-                        width: 211,
+                        width: isIpad(context)?311: 211,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(
@@ -93,6 +94,7 @@ class _PuzzleScreenState extends State<HomeScreen> {
                                   favoriteCategory,
                                   style: TextStyle(
                                     color: Color(0xFFFF48A0),
+                                    fontSize: isIpad(context)? 30: null
                                   ),
                                 ),
                               ],
@@ -115,13 +117,13 @@ class _PuzzleScreenState extends State<HomeScreen> {
                               elevation: 0,
                               padding: EdgeInsets.zero),
                           child: SizedBox(
-                            width: 250,
-                            height: 37,
+                            width: isIpad(context)?350:250,
+                            height: isIpad(context)?74:37,
                             child: Center(
-                              child: const Text(
+                              child: Text(
                                 'Select level',
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: isIpad(context)?30: 20,
                                   fontFamily: 'Baloo Bhaijaan',
                                   color: Colors.white,
                                 ),
@@ -146,13 +148,13 @@ class _PuzzleScreenState extends State<HomeScreen> {
                               elevation: 0,
                               padding: EdgeInsets.zero),
                           child: SizedBox(
-                            width: 250,
-                            height: 37,
+                            width: isIpad(context)?350:250,
+                            height: isIpad(context)?74:37,
                             child: Center(
-                              child: const Text(
+                              child: Text(
                                 'Random riddle',
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: isIpad(context)?30: 20,
                                   fontFamily: 'Baloo Bhaijaan',
                                   color: Colors.white,
                                 ),
@@ -177,13 +179,13 @@ class _PuzzleScreenState extends State<HomeScreen> {
                               elevation: 0,
                               padding: EdgeInsets.zero),
                           child: SizedBox(
-                            width: 250,
-                            height: 37,
+                            width: isIpad(context)?350:250,
+                            height: isIpad(context)?74:37,
                             child: Center(
-                              child: const Text(
+                              child: Text(
                                 'Everyday riddle',
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: isIpad(context)?30: 20,
                                   fontFamily: 'Baloo Bhaijaan',
                                   color: Colors.white,
                                 ),
@@ -203,13 +205,13 @@ class _PuzzleScreenState extends State<HomeScreen> {
                               elevation: 0,
                               padding: EdgeInsets.zero),
                           child: SizedBox(
-                            width: 250,
-                            height: 37,
+                            width: isIpad(context)?350:250,
+                            height: isIpad(context)?74:37,
                             child: Center(
-                              child: const Text(
+                              child:  Text(
                                 'Create riddle',
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: isIpad(context)?30: 20,
                                   fontFamily: 'Baloo Bhaijaan',
                                   color: Colors.white,
                                 ),
@@ -286,10 +288,12 @@ Widget _getIconByCategory(String category) {
 
 class RoundedPieChart extends StatefulWidget {
   final double value;
+  final bool isHomeScreen;
 
   const RoundedPieChart({
     Key? key,
     required this.value,
+    this.isHomeScreen = false
   }) : super(key: key);
 
   @override
@@ -346,8 +350,8 @@ class _RoundedPieChartState extends State<RoundedPieChart>
       animation: _animation,
       builder: (context, child) {
         return CustomPaint(
-          size: Size(230, 230),
-          painter: PieChartPainter(_animation.value, context),
+          size: isIpad(context)&&widget.isHomeScreen?Size(460, 460): Size(230, 230),
+          painter: PieChartPainter(_animation.value, context, isHomeScreen: widget.isHomeScreen),
         );
       },
     );
@@ -357,8 +361,9 @@ class _RoundedPieChartState extends State<RoundedPieChart>
 class PieChartPainter extends CustomPainter {
   final double value;
   final BuildContext context;
+  final bool isHomeScreen;
 
-  PieChartPainter(this.value, this.context);
+  PieChartPainter(this.value, this.context, {this.isHomeScreen = false});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -375,7 +380,7 @@ class PieChartPainter extends CustomPainter {
         Rect.fromCircle(center: center, radius: radius),
       )
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 40;
+      ..strokeWidth = isIpad(context)&&isHomeScreen? 80: 40;
 
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
@@ -397,7 +402,7 @@ class PieChartPainter extends CustomPainter {
         Rect.fromCircle(center: center, radius: radius),
       )
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 41
+      ..strokeWidth = isIpad(context)&&isHomeScreen? 81: 41
       ..strokeCap = StrokeCap.round;
 
     canvas.drawArc(

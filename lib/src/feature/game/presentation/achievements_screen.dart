@@ -38,6 +38,7 @@ class AchievementsScreen extends StatelessWidget {
                 tipsCount: state.user!.hints,
                 coinsCount: state.user!.coins,
                 hasBackButton: true,
+                hasChallengeIcon: false,
                 title: 'Your achievements',
               )
             ],

@@ -82,13 +82,13 @@ Answer (click to reveal): ||$answer||
                               elevation: 0,
                               padding: EdgeInsets.zero),
                           child: SizedBox(
-                            width: 250,
-                            height: 37,
+                            width: isIpad(context) ? 350 : 250,
+                            height: isIpad(context) ? 74 : 37,
                             child: Center(
-                              child: const Text(
+                              child: Text(
                                 'Create riddle',
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: isIpad(context) ? 30 : 20,
                                   fontFamily: 'Baloo Bhaijaan',
                                   color: Colors.white,
                                 ),
@@ -326,6 +326,7 @@ Widget _textFieldEmoji(
               top: false,
               child: EmojiPicker(
                 config: Config(
+                  height: isIpad(context)?512:256,
                     customBackspaceIcon: Icon(
                       CupertinoIcons.delete_left_fill,
                       color: Color(0xFF5b5f66),
