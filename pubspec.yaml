@@ -38,6 +38,7 @@ flutter:
      - assets/images/
      - assets/fonts/
      - assets/json/
+     - assets/generated/
   fonts:
     - family: Baloo Bhaijaan
       fonts:
