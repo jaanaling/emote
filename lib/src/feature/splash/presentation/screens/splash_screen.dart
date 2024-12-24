@@ -1,5 +1,7 @@
+import 'package:core_logic/core_logic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:emote_this/src/core/utils/app_icon.dart';
 import 'package:emote_this/src/core/utils/icon_provider.dart';
@@ -7,72 +9,60 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../routes/route_value.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-
-  @override
-  void initState() {
-    super.initState();
-    startLoading(context);
-  }
-
-  Future<void> startLoading(BuildContext context) async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    context.go(RouteValue.home.path);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Positioned.fill(
-          child: AppIcon(
-            asset: IconProvider.splash.buildImageUrl(),
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ),
-        ),
-        Positioned(
-          top: height * 0.147,
-          child: AppIcon(
-            asset: IconProvider.logo.buildImageUrl(),
-            width: 298,
-            fit: BoxFit.fitWidth,
-          ),
-        ),
-        Positioned(
-            bottom: height * 0.036 + MediaQuery.of(context).padding.bottom,
-            child: Column(
-              children: [
-                SizedBox(
-                  width: width-32,
-                  child: LinearProgressIndicator(
-                    minHeight: 18,
-                    borderRadius: BorderRadius.circular(29),
-                    color: Color(0xFFFF48A0),
-                    backgroundColor: Color(0xFFF2B5D0),
-                  ),
+    return BlocProvider(
+        create: (context) => InitializationCubit()..initialize(context),
+        child: BlocListener<InitializationCubit, InitializationState>(
+          listener: (context, state) {
+            if (state is InitializedState) {
+              context.go(state.startRoute);
+            }
+          },
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned.fill(
+                child: AppIcon(
+                  asset: IconProvider.splash.buildImageUrl(),
+                  width: double.infinity,
+                  fit: BoxFit.cover,
                 ),
-                Gap(22),
-                LoadingAnimation()
-              ],
-            )),
-      ],
-    );
+              ),
+              Positioned(
+                top: height * 0.147,
+                child: AppIcon(
+                  asset: IconProvider.logo.buildImageUrl(),
+                  width: 298,
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
+              Positioned(
+                  bottom:
+                      height * 0.036 + MediaQuery.of(context).padding.bottom,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: width - 32,
+                        child: LinearProgressIndicator(
+                          minHeight: 18,
+                          borderRadius: BorderRadius.circular(29),
+                          color: Color(0xFFFF48A0),
+                          backgroundColor: Color(0xFFF2B5D0),
+                        ),
+                      ),
+                      Gap(22),
+                      LoadingAnimation()
+                    ],
+                  )),
+            ],
+          ),
+        ));
   }
 }
 
