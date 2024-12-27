@@ -86,6 +86,25 @@ class AppBarWidget extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 4, left: 4),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          context.push(
+                            '${RouteValue.home.path}/${RouteValue.privicy.path}',
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(32),
+                        child: Ink(
+                          width: 26,
+                          height: 25,
+                          child: Icon(Icons.privacy_tip, size: 25, color: Colors.white,),
+                        ),
+                      ),
+                    ),
+                  ),
                   const Spacer(),
                   Material(
                     color: Colors.transparent,

@@ -6,12 +6,14 @@ import 'package:emote_this/ui_kit/app_bar.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/utils/app_icon.dart';
 import '../../../core/utils/icon_provider.dart';
 import '../bloc/game_bloc.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -66,17 +68,19 @@ class _PuzzleScreenState extends State<HomeScreen> {
                           Text(
                             '$score\nSCORE',
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: isIpad(context)?36: 26, height: 0.95),
+                            style: TextStyle(
+                                fontSize: isIpad(context) ? 36 : 26,
+                                height: 0.95),
                           )
                         ],
                       ),
                       const Gap(75),
                       Text(
                         'FAVORITE CATEGORY',
-                        style: TextStyle(fontSize:isIpad(context)?40: 30),
+                        style: TextStyle(fontSize: isIpad(context) ? 40 : 30),
                       ),
                       Container(
-                        width: isIpad(context)?311: 211,
+                        width: isIpad(context) ? 311 : 211,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(
@@ -88,14 +92,13 @@ class _PuzzleScreenState extends State<HomeScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                if(favoriteCategory!='Unknown')
-                                _getIconByCategory(favoriteCategory),
+                                if (favoriteCategory != 'Unknown')
+                                  _getIconByCategory(favoriteCategory),
                                 Text(
                                   favoriteCategory,
                                   style: TextStyle(
-                                    color: Color(0xFFFF48A0),
-                                    fontSize: isIpad(context)? 30: null
-                                  ),
+                                      color: Color(0xFFFF48A0),
+                                      fontSize: isIpad(context) ? 30 : null),
                                 ),
                               ],
                             ),
@@ -117,13 +120,13 @@ class _PuzzleScreenState extends State<HomeScreen> {
                               elevation: 0,
                               padding: EdgeInsets.zero),
                           child: SizedBox(
-                            width: isIpad(context)?350:250,
-                            height: isIpad(context)?74:37,
+                            width: isIpad(context) ? 350 : 250,
+                            height: isIpad(context) ? 74 : 37,
                             child: Center(
                               child: Text(
                                 'Select level',
                                 style: TextStyle(
-                                  fontSize: isIpad(context)?30: 20,
+                                  fontSize: isIpad(context) ? 30 : 20,
                                   fontFamily: 'Baloo Bhaijaan',
                                   color: Colors.white,
                                 ),
@@ -148,13 +151,13 @@ class _PuzzleScreenState extends State<HomeScreen> {
                               elevation: 0,
                               padding: EdgeInsets.zero),
                           child: SizedBox(
-                            width: isIpad(context)?350:250,
-                            height: isIpad(context)?74:37,
+                            width: isIpad(context) ? 350 : 250,
+                            height: isIpad(context) ? 74 : 37,
                             child: Center(
                               child: Text(
                                 'Random riddle',
                                 style: TextStyle(
-                                  fontSize: isIpad(context)?30: 20,
+                                  fontSize: isIpad(context) ? 30 : 20,
                                   fontFamily: 'Baloo Bhaijaan',
                                   color: Colors.white,
                                 ),
@@ -179,13 +182,13 @@ class _PuzzleScreenState extends State<HomeScreen> {
                               elevation: 0,
                               padding: EdgeInsets.zero),
                           child: SizedBox(
-                            width: isIpad(context)?350:250,
-                            height: isIpad(context)?74:37,
+                            width: isIpad(context) ? 350 : 250,
+                            height: isIpad(context) ? 74 : 37,
                             child: Center(
                               child: Text(
                                 'Everyday riddle',
                                 style: TextStyle(
-                                  fontSize: isIpad(context)?30: 20,
+                                  fontSize: isIpad(context) ? 30 : 20,
                                   fontFamily: 'Baloo Bhaijaan',
                                   color: Colors.white,
                                 ),
@@ -198,20 +201,22 @@ class _PuzzleScreenState extends State<HomeScreen> {
                       Material(
                         color: Colors.transparent,
                         child: ElevatedButton(
-                          onPressed: () {context.push(
-                              "${RouteValue.home.path}/${RouteValue.create.path}");},
+                          onPressed: () {
+                            context.push(
+                                "${RouteValue.home.path}/${RouteValue.create.path}");
+                          },
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF8348FF),
+                              backgroundColor: const Color(0xFFFF48A0),
                               elevation: 0,
                               padding: EdgeInsets.zero),
                           child: SizedBox(
-                            width: isIpad(context)?350:250,
-                            height: isIpad(context)?74:37,
+                            width: isIpad(context) ? 350 : 250,
+                            height: isIpad(context) ? 74 : 37,
                             child: Center(
-                              child:  Text(
+                              child: Text(
                                 'Create riddle',
                                 style: TextStyle(
-                                  fontSize: isIpad(context)?30: 20,
+                                  fontSize: isIpad(context) ? 30 : 20,
                                   fontFamily: 'Baloo Bhaijaan',
                                   color: Colors.white,
                                 ),
@@ -220,6 +225,8 @@ class _PuzzleScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
+               
+                   
                       Gap(62)
                     ],
                   ),
@@ -238,7 +245,6 @@ class _PuzzleScreenState extends State<HomeScreen> {
     );
   }
 }
-
 
 Widget _getIconByCategory(String category) {
   switch (category) {
@@ -290,11 +296,9 @@ class RoundedPieChart extends StatefulWidget {
   final double value;
   final bool isHomeScreen;
 
-  const RoundedPieChart({
-    Key? key,
-    required this.value,
-    this.isHomeScreen = false
-  }) : super(key: key);
+  const RoundedPieChart(
+      {Key? key, required this.value, this.isHomeScreen = false})
+      : super(key: key);
 
   @override
   _RoundedPieChartState createState() => _RoundedPieChartState();
@@ -350,8 +354,11 @@ class _RoundedPieChartState extends State<RoundedPieChart>
       animation: _animation,
       builder: (context, child) {
         return CustomPaint(
-          size: isIpad(context)&&widget.isHomeScreen?Size(460, 460): Size(230, 230),
-          painter: PieChartPainter(_animation.value, context, isHomeScreen: widget.isHomeScreen),
+          size: isIpad(context) && widget.isHomeScreen
+              ? Size(460, 460)
+              : Size(230, 230),
+          painter: PieChartPainter(_animation.value, context,
+              isHomeScreen: widget.isHomeScreen),
         );
       },
     );
@@ -380,7 +387,7 @@ class PieChartPainter extends CustomPainter {
         Rect.fromCircle(center: center, radius: radius),
       )
       ..style = PaintingStyle.stroke
-      ..strokeWidth = isIpad(context)&&isHomeScreen? 80: 40;
+      ..strokeWidth = isIpad(context) && isHomeScreen ? 80 : 40;
 
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
@@ -402,7 +409,7 @@ class PieChartPainter extends CustomPainter {
         Rect.fromCircle(center: center, radius: radius),
       )
       ..style = PaintingStyle.stroke
-      ..strokeWidth = isIpad(context)&&isHomeScreen? 81: 41
+      ..strokeWidth = isIpad(context) && isHomeScreen ? 81 : 41
       ..strokeCap = StrokeCap.round;
 
     canvas.drawArc(
@@ -417,5 +424,78 @@ class PieChartPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true; // Перерисовка при изменении данных
+  }
+}
+
+class PrivicyScreen extends StatefulWidget {
+  const PrivicyScreen({super.key});
+
+  @override
+  State<PrivicyScreen> createState() => _PrivicyScreenState();
+}
+
+class _PrivicyScreenState extends State<PrivicyScreen> {
+  late final WebViewController _controller;
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        systemNavigationBarColor: CupertinoColors.black,
+        systemNavigationBarIconBrightness: Brightness.light,
+      ),
+    );
+
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoPageScaffold(
+      backgroundColor: Colors.white,
+      child: Column(
+        children: [
+          SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 15),
+              child: Row(children: [
+                Gap(15),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        context.pop();
+                      },
+                      borderRadius: BorderRadius.circular(32),
+                      child: const Icon(
+                        CupertinoIcons.arrowtriangle_left_circle_fill,
+                        color: Colors.black,
+                        size: 34,
+                      ),
+                    ),
+                  ),
+                ),
+                Spacer(),
+                Text('Privacy Policy'),
+                Spacer(),
+              ],),
+            ),
+          ),
+          Expanded(
+            child: WebViewWidget(
+              controller: _controller
+                ..loadRequest(Uri.parse("https://emotethis.com/privacy"))
+                ..setBackgroundColor(
+                  Colors.orange,
+                ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

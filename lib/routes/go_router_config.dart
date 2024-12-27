@@ -48,6 +48,17 @@ GoRouter buildGoRouter = GoRouter(
                   },
                 ),
                 GoRoute(
+                  parentNavigatorKey: _rootNavigatorKey,
+                  path: RouteValue.privicy.path,
+                  pageBuilder: (context, state) {
+                    return NoTransitionPage(
+                      child: PrivicyScreen(
+                        key: UniqueKey(),
+                      ),
+                    );
+                  },
+                ),
+                GoRoute(
                   path: RouteValue.dayli.path,
                   builder: (BuildContext context, GoRouterState state) {
                     return QuizScreen(
