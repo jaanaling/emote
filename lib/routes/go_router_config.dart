@@ -1,3 +1,4 @@
+import 'package:core_logic/core_logic.dart';
 import 'package:emote_this/src/feature/game/presentation/achievements_screen.dart';
 import 'package:emote_this/src/feature/game/presentation/create_screen.dart';
 import 'package:emote_this/src/feature/game/presentation/home_screen.dart';
@@ -105,6 +106,17 @@ GoRouter buildGoRouter = GoRouter(
           },
         ),
       ],
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
+      path: '/core',
+      pageBuilder: (context, state) {
+        return NoTransitionPage(
+          child: CoreScreen(
+            key: UniqueKey(),
+          ),
+        );
+      },
     ),
   ],
 );

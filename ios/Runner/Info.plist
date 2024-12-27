@@ -45,5 +45,32 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<!-- PUSH NOTIFICATIONS CONFIG -->
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>remote-notification</string>
+    </array>
+    <!-- PUSH NOTIFICATIONS CONFIG -->
+
+    <!-- FACEBOOK SDK CONFIG -->
+    <key>CFBundleURLTypes</key>
+    <array>
+    <dict>
+       <key>CFBundleURLSchemes</key>
+       <array>
+          <string>fb1099365504998707</string>
+       </array>
+    </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>1099365504998707</string>
+    <key>FacebookClientToken</key>
+    <string>e5900e2a0cc1e263972aea70b5b215bb</string>
+    <key>FacebookDisplayName</key>
+    <string>Emote This!</string>
+    <!-- FACEBOOK SDK CONFIG -->
+    <key>NSUserTrackingUsageDescription</key>
+        	<string>We use your device's IDFA (Identifier for Advertisers) to show relevant ads and improve your app experience.</string>
 </dict>
 </plist>

@@ -4,9 +4,10 @@ import 'package:core_logic/core_logic.dart';
 import 'package:core_amplitude/core_amplitude.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'firebase_options.dart';
 import 'src/core/dependency_injection.dart';
 import 'src/feature/app/presentation/app_root.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   runZonedGuarded(() async {
@@ -14,6 +15,10 @@ void main() async {
       _handleFlutterError(details);
     };
     WidgetsFlutterBinding.ensureInitialized();
+
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     setupDependencyInjection();
 
     SystemChrome.setPreferredOrientations([
@@ -28,6 +33,8 @@ void main() async {
       appId: 'com.sparklinecreations.emotethis',
       iosAppId: '6739771343',
       initialRoute: '/home',
+      facebookClientToken: 'e5900e2a0cc1e263972aea70b5b215bb',
+      facebookAppId: '1099365504998707',
     );
 
     runApp(

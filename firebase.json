@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"ios":{"default":{"projectId":"emote-this","appId":"1:567926575352:ios:4fb0b7a2cfba6996c02b0d","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"emote-this","configurations":{"ios":"1:567926575352:ios:4fb0b7a2cfba6996c02b0d"}}}}}}
