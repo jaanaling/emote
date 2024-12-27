@@ -38,15 +38,13 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-     - assets/
-     - assets/images/
-     - assets/fonts/
-     - assets/json/
-     - assets/generated/
+    - assets/
+    - assets/images/
+    - assets/fonts/
+    - assets/json/
+    - assets/generated/
   fonts:
     - family: Baloo Bhaijaan
       fonts:
         - asset: assets/fonts/baloo.ttf
           weight: 400
-
- 
