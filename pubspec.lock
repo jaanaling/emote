@@ -110,8 +110,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "514ac3fb550c32e975cd31f2a15a360faa980f19"
-      resolved-ref: "514ac3fb550c32e975cd31f2a15a360faa980f19"
+      ref: "487d03f608de05b4dd74f62cb0951a623ea78a85"
+      resolved-ref: "487d03f608de05b4dd74f62cb0951a623ea78a85"
       url: "https://github.com/Vennylost/core_logic.git"
     source: git
     version: "1.0.4"

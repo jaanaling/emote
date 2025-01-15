@@ -31,6 +31,9 @@ void main() async {
       facebookAppId: '1099365504998707',
     );
 
+    final map = {'key':'value'};
+    final i = map as int;
+
     runApp(
       const AppRoot(),
     );
