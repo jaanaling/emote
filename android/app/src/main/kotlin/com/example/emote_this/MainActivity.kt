@@ -1,4 +1,4 @@
-package com.example.emote_this
+package com.sparklinecreations.emotethis
 
 import io.flutter.embedding.android.FlutterActivity
 

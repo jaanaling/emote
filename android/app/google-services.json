@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "567926575352",
+    "project_id": "emote-this",
+    "storage_bucket": "emote-this.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567926575352:android:24cf44e5c5d5c938c02b0d",
+        "android_client_info": {
+          "package_name": "com.sparklinecreations.emotethis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4iWmEnXcDDa2Vqm8g5KL4Gm-JHPUsYSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

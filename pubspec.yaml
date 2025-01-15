@@ -28,7 +28,8 @@ dependencies:
   core_logic:
     git:
       url: https://github.com/Vennylost/core_logic.git
-      ref: cf1c6788189d1391a15f2c64254f5b6198cc11f6
+      ref: 514ac3fb550c32e975cd31f2a15a360faa980f19
+  advertising_id: ^2.7.1
 
 dev_dependencies:
   flutter_test:
