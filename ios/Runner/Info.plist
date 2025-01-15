@@ -70,5 +70,7 @@
     <key>FacebookDisplayName</key>
     <string>Emote This!</string>
     <!-- FACEBOOK SDK CONFIG -->
+    	<key>NSUserTrackingUsageDescription</key>
+            <string>This app requires tracking for personalized advertising experiences.</string>
 </dict>
 </plist>
