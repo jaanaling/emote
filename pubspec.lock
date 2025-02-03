@@ -109,8 +109,8 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: "25e176e56ab63bcceca3e336c7e305c52a206cb9"
-      resolved-ref: "25e176e56ab63bcceca3e336c7e305c52a206cb9"
+      ref: "1e6cc420848c15d82d60122c51da939301260d41"
+      resolved-ref: "1e6cc420848c15d82d60122c51da939301260d41"
       url: "https://github.com/Vennylost/core_amplitude.git"
     source: git
     version: "1.0.0"
@@ -118,8 +118,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: eacda3ef2bc6fa478615c6af02f5f10dad2c3bb4
-      resolved-ref: eacda3ef2bc6fa478615c6af02f5f10dad2c3bb4
+      ref: cadb52e43e1a0c4526e90e608e1f9694f6b8fcb1
+      resolved-ref: cadb52e43e1a0c4526e90e608e1f9694f6b8fcb1
       url: "https://github.com/Vennylost/core_logic.git"
     source: git
     version: "1.0.4"
